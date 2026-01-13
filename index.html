@@ -995,9 +995,22 @@
             margin-bottom: 5px;
         }
 
+        .cart-item-details {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
         .cart-item-price {
             color: #4cd964;
             font-size: 14px;
+        }
+
+        .cart-item-total {
+            color: #4cd964;
+            font-weight: bold;
+            margin-top: 5px;
         }
 
         .cart-item-controls {
@@ -1033,6 +1046,15 @@
         }
 
         .quantity-input {
+            width: 60px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .quantity-input-small {
             width: 40px;
             text-align: center;
             background: transparent;
@@ -1266,6 +1288,10 @@
             font-size: 30px;
             margin-bottom: 10px;
             color: #00c6ff;
+        }
+
+        .bulk-order-controls {
+            margin-top: 10px;
         }
 
         .cashier-keypad {
@@ -1593,6 +1619,16 @@
             background: rgba(155, 89, 182, 0.3);
         }
 
+        /* أنماط جديدة لوضع طلب الكميات الكبيرة */
+        #bulkOrderPanel {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 198, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid rgba(0, 198, 255, 0.3);
+        }
+
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -1786,7 +1822,7 @@
             
             <div class="input-group">
                 <label for="quantity">الكمية المتاحة *</label>
-                <input type="number" id="quantity" placeholder="أدخل الكمية المتاحة" min="0">
+                <input type="number" id="quantity" placeholder="أدخل الكمية المتاحة" min="0" max="1000" oninput="validateProductQuantity()">
             </div>
             
             <div class="input-group">
@@ -1947,6 +1983,32 @@
                         <span>بطاقة هوية</span>
                         <span style="font-size: 12px; color: #4cd964;">2000 ج.م</span>
                     </button>
+                </div>
+                
+                <!-- لوحة طلب الكميات الكبيرة -->
+                <div class="quick-actions" style="margin-top: 20px;">
+                    <button class="quick-action-btn" onclick="enableBulkOrder()">
+                        <i class="fas fa-boxes"></i>
+                        <span>طلب كميات كبيرة</span>
+                        <span style="font-size: 12px; color: #ffcc00;">(حتى 100 قطعة)</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="disableBulkOrder()">
+                        <i class="fas fa-cart-plus"></i>
+                        <span>طلب عادي</span>
+                    </button>
+                </div>
+                
+                <div id="bulkOrderPanel">
+                    <h4><i class="fas fa-boxes"></i> لوحة طلب الكميات الكبيرة</h4>
+                    <p style="color: #ccc; margin-bottom: 15px;">يمكنك الآن إدخال الكمية المطلوبة لكل منتج (حتى 100 قطعة)</p>
+                    
+                    <div class="input-group" style="display: flex; gap: 10px;">
+                        <input type="number" id="bulkQuantity" placeholder="الكمية المطلوبة" min="1" max="100" value="1" style="flex: 1;">
+                        <button class="whatsapp-btn small" onclick="addWithBulkQuantity()">
+                            <i class="fas fa-plus"></i>
+                            إضافة بالكمية
+                        </button>
+                    </div>
                 </div>
             </div>
             
@@ -2484,6 +2546,9 @@
         revenue: 0,
         transactions: []
     };
+    
+    // متغير وضع طلب الكميات الكبيرة
+    let bulkOrderMode = false;
 
     // ========== دوال مساعدة ==========
 
@@ -2769,6 +2834,16 @@
             showNotification("خطأ", "فشل في تحميل المنتجات من قاعدة البيانات", "error");
         }
     }
+
+    // دالة التحقق من كمية المنتج
+    window.validateProductQuantity = () => {
+        const quantityInput = document.getElementById("quantity");
+        const quantity = parseInt(quantityInput.value);
+        
+        if (quantity > 1000) {
+            showNotification("معلومات", "يمكنك إضافة حتى 1000 قطعة في المخزون", "info");
+        }
+    };
 
     // إضافة منتج جديد
     async function addProduct() {
@@ -4338,11 +4413,39 @@
             const icon = getProductIcon(product.category);
             
             productsHTML += `
-                <div class="product-grid-item" onclick="addToCart('${product.id}')">
+                <div class="product-grid-item" id="product-${product.id}">
                     ${icon}
                     <div class="product-name">${product.name}</div>
                     <div class="product-price">${product.price.toFixed(2)} ج.م</div>
                     <div class="product-quantity">المتاح: ${product.quantity}</div>
+                    
+                    <div class="bulk-order-controls" style="margin-top: 10px; display: none;">
+                        <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+                            <input type="number" 
+                                   id="qty-${product.id}" 
+                                   class="quantity-input-small" 
+                                   value="1" 
+                                   min="1" 
+                                   max="100"
+                                   style="width: 60px; text-align: center;">
+                            <button onclick="addToCartWithQuantity('${product.id}')" 
+                                    class="whatsapp-btn small">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                        </div>
+                        <button onclick="addToCart('${product.id}')" 
+                                class="quick-action-btn" 
+                                style="width: 100%; padding: 8px;">
+                            إضافة 1 قطعة
+                        </button>
+                    </div>
+                    
+                    <button onclick="addToCart('${product.id}')" 
+                            class="quick-action-btn" 
+                            style="width: 100%; margin-top: 10px;">
+                        <i class="fas fa-cart-plus"></i>
+                        إضافة إلى السلة
+                    </button>
                 </div>
             `;
         });
@@ -4399,6 +4502,118 @@
         addToCartItem(quickProduct);
     };
 
+    // تفعيل وضع طلب الكميات الكبيرة
+    window.enableBulkOrder = () => {
+        bulkOrderMode = true;
+        document.getElementById("bulkOrderPanel").style.display = "block";
+        
+        // إظهار عناصر التحكم في الكمية لكل منتج
+        document.querySelectorAll('.bulk-order-controls').forEach(el => {
+            el.style.display = 'block';
+        });
+        
+        // إخفاء أزرار الإضافة العادية
+        document.querySelectorAll('.product-grid-item .quick-action-btn').forEach(el => {
+            if (el.textContent.includes('إضافة إلى السلة')) {
+                el.style.display = 'none';
+            }
+        });
+        
+        showNotification("معلومات", "تم تفعيل وضع طلب الكميات الكبيرة - يمكنك طلب حتى 100 قطعة من كل منتج", "info");
+    };
+
+    // تعطيل وضع طلب الكميات الكبيرة
+    window.disableBulkOrder = () => {
+        bulkOrderMode = false;
+        document.getElementById("bulkOrderPanel").style.display = "none";
+        
+        // إخفاء عناصر التحكم في الكمية
+        document.querySelectorAll('.bulk-order-controls').forEach(el => {
+            el.style.display = 'none';
+        });
+        
+        // إظهار أزرار الإضافة العادية
+        document.querySelectorAll('.product-grid-item .quick-action-btn').forEach(el => {
+            if (el.textContent.includes('إضافة إلى السلة')) {
+                el.style.display = 'block';
+            }
+        });
+        
+        showNotification("معلومات", "تم تعطيل وضع طلب الكميات الكبيرة", "info");
+    };
+
+    // إضافة منتج بالكمية المحددة
+    window.addToCartWithQuantity = (productId) => {
+        const quantityInput = document.getElementById(`qty-${productId}`);
+        const quantity = parseInt(quantityInput.value) || 1;
+        
+        if (quantity < 1) {
+            showNotification("تحذير", "الكمية يجب أن تكون 1 على الأقل", "warning");
+            return;
+        }
+        
+        if (quantity > 100) {
+            showNotification("تحذير", "الحد الأقصى للطلب هو 100 قطعة", "warning");
+            quantityInput.value = 100;
+            return;
+        }
+        
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) {
+            showNotification("خطأ", "المنتج غير موجود", "error");
+            return;
+        }
+        
+        if (quantity > product.quantity) {
+            showNotification("تحذير", `لا يوجد كمية كافية في المخزون. المتاح: ${product.quantity}`, "warning");
+            quantityInput.value = product.quantity;
+            return;
+        }
+        
+        // إضافة المنتج بالكمية المطلوبة
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            const newTotalQuantity = existingItem.quantity + quantity;
+            if (newTotalQuantity > product.quantity) {
+                showNotification("تحذير", `لا يمكن إضافة هذه الكمية. المجموع سيتجاوز المخزون المتاح`, "warning");
+                return;
+            }
+            if (newTotalQuantity > 100) {
+                showNotification("تحذير", `الحد الأقصى للطلب من هذا المنتج هو 100 قطعة`, "warning");
+                return;
+            }
+            existingItem.quantity = newTotalQuantity;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: quantity,
+                category: product.category,
+                stock: product.quantity
+            });
+        }
+        
+        updateCartDisplay();
+        showNotification("نجاح", `تم إضافة ${quantity} من ${product.name} إلى السلة`, "success");
+    };
+
+    // إضافة بالكمية من اللوحة العامة
+    window.addWithBulkQuantity = () => {
+        const bulkQuantity = parseInt(document.getElementById("bulkQuantity").value) || 1;
+        const selectedProduct = document.querySelector('.product-grid-item.selected');
+        
+        if (!selectedProduct) {
+            showNotification("تحذير", "يرجى اختيار منتج أولاً", "warning");
+            return;
+        }
+        
+        const productId = selectedProduct.id.replace('product-', '');
+        document.getElementById(`qty-${productId}`).value = bulkQuantity;
+        addToCartWithQuantity(productId);
+    };
+
     // إضافة منتج إلى السلة
     window.addToCart = (productId) => {
         const product = allProducts.find(p => p.id === productId);
@@ -4415,6 +4630,12 @@
         const existingItem = cart.find(item => item.id === productId);
         
         if (existingItem) {
+            // التحقق من الحد الأقصى 100 قطعة
+            if (existingItem.quantity >= 100) {
+                showNotification("تحذير", "الحد الأقصى للطلب من هذا المنتج هو 100 قطعة", "warning");
+                return;
+            }
+            
             if (existingItem.quantity >= product.quantity) {
                 showNotification("تحذير", "لا يوجد كمية كافية في المخزون", "warning");
                 return;
@@ -4486,14 +4707,26 @@
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-price">${item.price.toFixed(2)} ج.م</div>
+                        <div class="cart-item-details">
+                            <span class="cart-item-price">${item.price.toFixed(2)} ج.م</span>
+                            <span style="color: #aaa; font-size: 12px; margin-right: 10px;">× ${item.quantity}</span>
+                        </div>
+                        <div class="cart-item-total" style="color: #4cd964; font-weight: bold;">
+                            ${itemTotal.toFixed(2)} ج.م
+                        </div>
                     </div>
                     <div class="cart-item-controls">
                         <div class="quantity-control">
                             <button class="quantity-btn" onclick="decreaseQuantity(${index})">
                                 <i class="fas fa-minus"></i>
                             </button>
-                            <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                            <input type="number" 
+                                   class="quantity-input" 
+                                   value="${item.quantity}" 
+                                   min="1" 
+                                   max="100"
+                                   onchange="updateItemQuantity(${index}, this.value)"
+                                   style="width: 60px; text-align: center;">
                             <button class="quantity-btn" onclick="increaseQuantity(${index})">
                                 <i class="fas fa-plus"></i>
                             </button>
@@ -4530,10 +4763,47 @@
         }
     }
 
+    // تحديث كمية العنصر مباشرة
+    window.updateItemQuantity = (index, newQuantity) => {
+        newQuantity = parseInt(newQuantity) || 1;
+        
+        if (newQuantity < 1) {
+            showNotification("تحذير", "الكمية يجب أن تكون 1 على الأقل", "warning");
+            updateCartDisplay();
+            return;
+        }
+        
+        if (newQuantity > 100) {
+            showNotification("تحذير", "الحد الأقصى للطلب هو 100 قطعة", "warning");
+            cart[index].quantity = 100;
+            updateCartDisplay();
+            return;
+        }
+        
+        const item = cart[index];
+        const product = allProducts.find(p => p.id === item.id);
+        
+        if (product && newQuantity > product.quantity) {
+            showNotification("تحذير", `لا يوجد كمية كافية في المخزون. المتاح: ${product.quantity}`, "warning");
+            cart[index].quantity = product.quantity;
+            updateCartDisplay();
+            return;
+        }
+        
+        cart[index].quantity = newQuantity;
+        updateCartDisplay();
+    };
+
     // زيادة كمية المنتج
     window.increaseQuantity = (index) => {
         const item = cart[index];
         const product = allProducts.find(p => p.id === item.id);
+        
+        // التحقق من الحد الأقصى 100 قطعة
+        if (item.quantity >= 100) {
+            showNotification("تحذير", "الحد الأقصى للطلب من هذا المنتج هو 100 قطعة", "warning");
+            return;
+        }
         
         if (product && item.quantity >= product.quantity) {
             showNotification("تحذير", "لا يوجد كمية كافية في المخزون", "warning");
