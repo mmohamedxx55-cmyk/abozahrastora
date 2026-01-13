@@ -1629,6 +1629,43 @@
             border: 2px solid rgba(0, 198, 255, 0.3);
         }
 
+        /* أنماط جديدة لاختيار المنتج */
+        .product-selection-area {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 198, 255, 0.05);
+            border-radius: 10px;
+            border: 2px dashed rgba(0, 198, 255, 0.3);
+        }
+
+        .product-selection-area h4 {
+            color: #00c6ff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .product-selection-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .selected-product-name {
+            font-weight: bold;
+            color: #4cd964;
+            margin-bottom: 5px;
+        }
+
+        .selected-product-details {
+            display: flex;
+            justify-content: space-between;
+            color: #aaa;
+            font-size: 14px;
+        }
+
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -1962,6 +1999,21 @@
                     <!-- المنتجات ستظهر هنا -->
                 </div>
                 
+                <!-- منطقة اختيار المنتج -->
+                <div class="product-selection-area" id="productSelectionArea" style="display: none;">
+                    <h4><i class="fas fa-check-circle"></i> المنتج المحدد</h4>
+                    <div class="product-selection-info" id="selectedProductInfo">
+                        <!-- معلومات المنتج المحدد ستظهر هنا -->
+                    </div>
+                    <div class="input-group" style="display: flex; gap: 10px; margin-top: 10px;">
+                        <input type="number" id="selectedProductQuantity" placeholder="الكمية المطلوبة" min="1" max="100" value="1" style="flex: 1;">
+                        <button class="whatsapp-btn small" onclick="addSelectedProductToCart()">
+                            <i class="fas fa-plus"></i>
+                            إضافة بالكمية
+                        </button>
+                    </div>
+                </div>
+                
                 <div class="quick-actions">
                     <button class="quick-action-btn" onclick="addQuickProduct('فيزا أمريكي', 5000)">
                         <i class="fas fa-credit-card"></i>
@@ -2000,7 +2052,7 @@
                 
                 <div id="bulkOrderPanel">
                     <h4><i class="fas fa-boxes"></i> لوحة طلب الكميات الكبيرة</h4>
-                    <p style="color: #ccc; margin-bottom: 15px;">يمكنك الآن إدخال الكمية المطلوبة لكل منتج (حتى 100 قطعة)</p>
+                    <p style="color: #ccc; margin-bottom: 15px;">اختر منتجاً أولاً ثم أدخل الكمية المطلوبة</p>
                     
                     <div class="input-group" style="display: flex; gap: 10px;">
                         <input type="number" id="bulkQuantity" placeholder="الكمية المطلوبة" min="1" max="100" value="1" style="flex: 1;">
@@ -2549,6 +2601,9 @@
     
     // متغير وضع طلب الكميات الكبيرة
     let bulkOrderMode = false;
+    
+    // متغير المنتج المحدد
+    let selectedProduct = null;
 
     // ========== دوال مساعدة ==========
 
@@ -2645,7 +2700,7 @@
         
         message += `---\n`;
         message += `شكراً لثقتك بنا! 😊\n`;
-        message += `متجر طلبات - للتسوق الإلكتروني\n`;
+        message += `متجر Abo Zahra - للتسوق الإلكتروني\n`;
         message += `📞 للاستفسار: 01029149379`;
         
         return message;
@@ -4162,7 +4217,7 @@
             ).join('\n') || '';
             
             const message = `
-                فاتورتك من متجر طلبات 🛍️
+                فاتورتك من متجر Abo Zahra 🛍️
                 
                 📋 رقم الطلب: ${order.orderNumber || `ORD-${orderId.slice(0, 8)}`}
                 📅 التاريخ: ${order.createdAt?.toDate().toLocaleDateString('ar-EG') || 'غير محدد'}
@@ -4413,32 +4468,11 @@
             const icon = getProductIcon(product.category);
             
             productsHTML += `
-                <div class="product-grid-item" id="product-${product.id}">
+                <div class="product-grid-item" onclick="selectProductForBulkOrder('${product.id}')" id="product-${product.id}">
                     ${icon}
                     <div class="product-name">${product.name}</div>
                     <div class="product-price">${product.price.toFixed(2)} ج.م</div>
                     <div class="product-quantity">المتاح: ${product.quantity}</div>
-                    
-                    <div class="bulk-order-controls" style="margin-top: 10px; display: none;">
-                        <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
-                            <input type="number" 
-                                   id="qty-${product.id}" 
-                                   class="quantity-input-small" 
-                                   value="1" 
-                                   min="1" 
-                                   max="100"
-                                   style="width: 60px; text-align: center;">
-                            <button onclick="addToCartWithQuantity('${product.id}')" 
-                                    class="whatsapp-btn small">
-                                <i class="fas fa-cart-plus"></i>
-                            </button>
-                        </div>
-                        <button onclick="addToCart('${product.id}')" 
-                                class="quick-action-btn" 
-                                style="width: 100%; padding: 8px;">
-                            إضافة 1 قطعة
-                        </button>
-                    </div>
                     
                     <button onclick="addToCart('${product.id}')" 
                             class="quick-action-btn" 
@@ -4455,6 +4489,45 @@
         // تحديث إحصائيات الكاشير
         updateCashierStats();
     }
+
+    // تحديد منتج لطلب الكميات الكبيرة
+    window.selectProductForBulkOrder = (productId) => {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) {
+            showNotification("خطأ", "المنتج غير موجود", "error");
+            return;
+        }
+        
+        // تحديث المنتج المحدد
+        selectedProduct = product;
+        
+        // تحديث التحديد البصري
+        document.querySelectorAll('.product-grid-item').forEach(el => {
+            el.classList.remove('selected');
+        });
+        document.getElementById(`product-${productId}`).classList.add('selected');
+        
+        // عرض معلومات المنتج المحدد
+        const selectionArea = document.getElementById("productSelectionArea");
+        const selectedProductInfo = document.getElementById("selectedProductInfo");
+        
+        if (selectionArea && selectedProductInfo) {
+            selectionArea.style.display = 'block';
+            selectedProductInfo.innerHTML = `
+                <div class="selected-product-name">${product.name}</div>
+                <div class="selected-product-details">
+                    <span>${product.price.toFixed(2)} ج.م</span>
+                    <span>المخزون: ${product.quantity}</span>
+                </div>
+            `;
+        }
+        
+        // تعيين الكمية الافتراضية
+        document.getElementById("selectedProductQuantity").value = 1;
+        document.getElementById("bulkQuantity").value = 1;
+        
+        showNotification("معلومات", `تم تحديد المنتج: ${product.name}`, "info");
+    };
 
     // الحصول على أيقونة المنتج حسب النوع
     function getProductIcon(category) {
@@ -4507,19 +4580,13 @@
         bulkOrderMode = true;
         document.getElementById("bulkOrderPanel").style.display = "block";
         
-        // إظهار عناصر التحكم في الكمية لكل منتج
-        document.querySelectorAll('.bulk-order-controls').forEach(el => {
-            el.style.display = 'block';
-        });
+        // إظهار منطقة اختيار المنتج
+        const selectionArea = document.getElementById("productSelectionArea");
+        if (selectionArea) {
+            selectionArea.style.display = 'block';
+        }
         
-        // إخفاء أزرار الإضافة العادية
-        document.querySelectorAll('.product-grid-item .quick-action-btn').forEach(el => {
-            if (el.textContent.includes('إضافة إلى السلة')) {
-                el.style.display = 'none';
-            }
-        });
-        
-        showNotification("معلومات", "تم تفعيل وضع طلب الكميات الكبيرة - يمكنك طلب حتى 100 قطعة من كل منتج", "info");
+        showNotification("معلومات", "تم تفعيل وضع طلب الكميات الكبيرة - اختر منتجاً ثم أدخل الكمية", "info");
     };
 
     // تعطيل وضع طلب الكميات الكبيرة
@@ -4527,25 +4594,51 @@
         bulkOrderMode = false;
         document.getElementById("bulkOrderPanel").style.display = "none";
         
-        // إخفاء عناصر التحكم في الكمية
-        document.querySelectorAll('.bulk-order-controls').forEach(el => {
-            el.style.display = 'none';
+        // إخفاء منطقة اختيار المنتج
+        const selectionArea = document.getElementById("productSelectionArea");
+        if (selectionArea) {
+            selectionArea.style.display = 'none';
+        }
+        
+        // إزالة التحديد من المنتجات
+        document.querySelectorAll('.product-grid-item').forEach(el => {
+            el.classList.remove('selected');
         });
         
-        // إظهار أزرار الإضافة العادية
-        document.querySelectorAll('.product-grid-item .quick-action-btn').forEach(el => {
-            if (el.textContent.includes('إضافة إلى السلة')) {
-                el.style.display = 'block';
-            }
-        });
+        selectedProduct = null;
         
         showNotification("معلومات", "تم تعطيل وضع طلب الكميات الكبيرة", "info");
     };
 
-    // إضافة منتج بالكمية المحددة
-    window.addToCartWithQuantity = (productId) => {
-        const quantityInput = document.getElementById(`qty-${productId}`);
-        const quantity = parseInt(quantityInput.value) || 1;
+    // إضافة المنتج المحدد إلى السلة
+    window.addSelectedProductToCart = () => {
+        if (!selectedProduct) {
+            showNotification("تحذير", "يرجى اختيار منتج أولاً", "warning");
+            return;
+        }
+        
+        const quantity = parseInt(document.getElementById("selectedProductQuantity").value) || 1;
+        addProductToCartWithQuantity(selectedProduct.id, quantity);
+    };
+
+    // إضافة بالكمية من اللوحة العامة
+    window.addWithBulkQuantity = () => {
+        if (!selectedProduct) {
+            showNotification("تحذير", "يرجى اختيار منتج أولاً", "warning");
+            return;
+        }
+        
+        const quantity = parseInt(document.getElementById("bulkQuantity").value) || 1;
+        addProductToCartWithQuantity(selectedProduct.id, quantity);
+    };
+
+    // إضافة منتج مع الكمية
+    function addProductToCartWithQuantity(productId, quantity) {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) {
+            showNotification("خطأ", "المنتج غير موجود", "error");
+            return;
+        }
         
         if (quantity < 1) {
             showNotification("تحذير", "الكمية يجب أن تكون 1 على الأقل", "warning");
@@ -4554,19 +4647,11 @@
         
         if (quantity > 100) {
             showNotification("تحذير", "الحد الأقصى للطلب هو 100 قطعة", "warning");
-            quantityInput.value = 100;
-            return;
-        }
-        
-        const product = allProducts.find(p => p.id === productId);
-        if (!product) {
-            showNotification("خطأ", "المنتج غير موجود", "error");
             return;
         }
         
         if (quantity > product.quantity) {
             showNotification("تحذير", `لا يوجد كمية كافية في المخزون. المتاح: ${product.quantity}`, "warning");
-            quantityInput.value = product.quantity;
             return;
         }
         
@@ -4597,21 +4682,6 @@
         
         updateCartDisplay();
         showNotification("نجاح", `تم إضافة ${quantity} من ${product.name} إلى السلة`, "success");
-    };
-
-    // إضافة بالكمية من اللوحة العامة
-    window.addWithBulkQuantity = () => {
-        const bulkQuantity = parseInt(document.getElementById("bulkQuantity").value) || 1;
-        const selectedProduct = document.querySelector('.product-grid-item.selected');
-        
-        if (!selectedProduct) {
-            showNotification("تحذير", "يرجى اختيار منتج أولاً", "warning");
-            return;
-        }
-        
-        const productId = selectedProduct.id.replace('product-', '');
-        document.getElementById(`qty-${productId}`).value = bulkQuantity;
-        addToCartWithQuantity(productId);
     };
 
     // إضافة منتج إلى السلة
@@ -5303,7 +5373,7 @@
         const invoiceHTML = `
             <div class="receipt-header">
                 <h2 style="margin-bottom: 10px;">فاتورة بيع</h2>
-                <p>متجر طلبات</p>
+                <p>متجر Abo Zahra</p>
                 <p>${new Date().toLocaleDateString('ar-EG')} ${new Date().toLocaleTimeString('ar-EG')}</p>
                 <p>رقم الفاتورة: ${currentSale.id.slice(0, 8)}</p>
             </div>
@@ -5445,7 +5515,7 @@
         const paymentMethod = currentSale.payment?.method === 'transfer' ? 'تحويل بنكي' : 'نقداً';
         
         const message = `
-            فاتورتك من متجر طلبات 🛍️
+            فاتورتك من متجر Abo Zahra 🛍️
             
             📋 رقم الفاتورة: ${currentSale.id.slice(0, 8)}
             📅 التاريخ: ${new Date().toLocaleDateString('ar-EG')}
