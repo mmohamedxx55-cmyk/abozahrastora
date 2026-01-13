@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مدير المنتجات - Product Manager</title>
+    <title>مدير المتجر - نظام كاشير</title>
     
     <!-- خطوط Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -60,6 +60,7 @@
         nav {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         nav button {
@@ -75,6 +76,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            min-width: 120px;
+            justify-content: center;
         }
 
         nav button:hover {
@@ -90,7 +93,7 @@
 
         .container {
             padding: 20px;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
@@ -337,6 +340,27 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .orders-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .orders-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .orders-list::-webkit-scrollbar-thumb {
+            background: rgba(0, 198, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .orders-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 198, 255, 0.5);
         }
 
         .order-item {
@@ -572,6 +596,26 @@
             transform: translateY(-50px);
             opacity: 0;
             transition: all 0.3s ease;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .modal::-webkit-scrollbar-thumb {
+            background: rgba(0, 198, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .modal::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 198, 255, 0.5);
         }
 
         .modal-overlay.active .modal {
@@ -868,6 +912,687 @@
             line-height: 1.5;
         }
 
+        /* أنماط نظام الكاشير الجديدة */
+        .cashier-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 1200px) {
+            .cashier-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .product-search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .product-search-container input {
+            padding-left: 50px;
+            font-size: 16px;
+        }
+
+        .product-search-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00c6ff;
+            font-size: 18px;
+        }
+
+        .cart-items {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cart-items::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .cart-items::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .cart-items::-webkit-scrollbar-thumb {
+            background: rgba(0, 198, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .cart-items::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 198, 255, 0.5);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .cart-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #4cd964;
+            font-size: 14px;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        .quantity-btn {
+            background: rgba(0, 198, 255, 0.2);
+            border: none;
+            color: #00c6ff;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: rgba(0, 198, 255, 0.3);
+        }
+
+        .quantity-input {
+            width: 40px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: white;
+            font-weight: bold;
+        }
+
+        .remove-item {
+            background: rgba(220, 53, 69, 0.2);
+            border: none;
+            color: #dc3545;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-item:hover {
+            background: rgba(220, 53, 69, 0.3);
+        }
+
+        .cart-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-row.total {
+            border-bottom: none;
+            font-size: 20px;
+            font-weight: bold;
+            color: #4cd964;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .payment-method {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-method.active {
+            border-color: #00c6ff;
+            background: rgba(0, 198, 255, 0.1);
+        }
+
+        .payment-method i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #00c6ff;
+        }
+
+        .customer-info-input {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .quick-action-btn {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(0, 198, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .quick-action-btn i {
+            font-size: 20px;
+            color: #00c6ff;
+        }
+
+        .receipt-container {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 20px auto;
+            font-family: 'Courier New', monospace;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px dashed #000;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .receipt-items {
+            border-bottom: 1px dashed #000;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .receipt-total {
+            border-top: 2px dashed #000;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .cash-drawer-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .cash-drawer-stat {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .cash-drawer-stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #4cd964;
+        }
+
+        .cash-drawer-stat-label {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .product-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .product-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .product-grid::-webkit-scrollbar-thumb {
+            background: rgba(0, 198, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .product-grid::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 198, 255, 0.5);
+        }
+
+        .product-grid-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .product-grid-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .product-grid-item.selected {
+            border-color: #00c6ff;
+            background: rgba(0, 198, 255, 0.1);
+        }
+
+        .product-grid-item i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #00c6ff;
+        }
+
+        .cashier-keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .keypad-btn {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .keypad-btn:hover {
+            background: rgba(0, 198, 255, 0.2);
+        }
+
+        .keypad-btn.clear {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+
+        .keypad-btn.clear:hover {
+            background: rgba(220, 53, 69, 0.3);
+        }
+
+        .keypad-btn.enter {
+            background: rgba(76, 217, 100, 0.2);
+            color: #4cd964;
+        }
+
+        .keypad-btn.enter:hover {
+            background: rgba(76, 217, 100, 0.3);
+        }
+
+        .cash-input-group {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .change-display {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 24px;
+            color: #4cd964;
+            font-weight: bold;
+        }
+
+        /* أنماط جديدة للتوصيل */
+        .delivery-options {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .delivery-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .delivery-option.active {
+            border-color: #00c6ff;
+            background: rgba(0, 198, 255, 0.1);
+        }
+
+        .delivery-option i {
+            font-size: 24px;
+            color: #00c6ff;
+        }
+
+        .delivery-option-info {
+            flex: 1;
+        }
+
+        .delivery-option-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .delivery-option-desc {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .delivery-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .delivery-details.active {
+            display: block;
+        }
+
+        /* أنماط جديدة لتعديل المدفوعات */
+        .payment-edit-modal {
+            max-width: 500px;
+        }
+
+        .payment-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .payment-history {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .payment-history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-history-item:last-child {
+            border-bottom: none;
+        }
+
+        .payment-method-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .badge-cash {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .badge-transfer {
+            background: rgba(155, 89, 182, 0.2);
+            color: #9b59b6;
+        }
+
+        .payment-proof-upload {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        /* أنماط جديدة للمدفوعات */
+        .payment-tracker {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .payment-progress {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .payment-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4cd964, #2ecc71);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+
+        .payment-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .payment-summary-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .payment-summary-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .payment-summary-cash {
+            color: #ffcc00;
+        }
+
+        .payment-summary-transfer {
+            color: #9b59b6;
+        }
+
+        .payment-summary-total {
+            color: #4cd964;
+        }
+
+        .payment-summary-remaining {
+            color: #ff6b6b;
+        }
+
+        .payment-history-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .payment-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .payment-item:last-child {
+            border-bottom: none;
+        }
+
+        .badge-cash {
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+        }
+
+        .badge-transfer {
+            background: rgba(155, 89, 182, 0.2);
+            color: #9b59b6;
+        }
+
+        .remaining-amount {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid rgba(255, 107, 107, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .remaining-amount h4 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .remaining-amount-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .payment-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .payment-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .payment-btn-cash {
+            background: rgba(255, 204, 0, 0.2);
+            color: #ffcc00;
+        }
+
+        .payment-btn-cash:hover {
+            background: rgba(255, 204, 0, 0.3);
+        }
+
+        .payment-btn-transfer {
+            background: rgba(155, 89, 182, 0.2);
+            color: #9b59b6;
+        }
+
+        .payment-btn-transfer:hover {
+            background: rgba(155, 89, 182, 0.3);
+        }
+
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -909,6 +1634,30 @@
                 max-width: 200px;
                 max-height: 150px;
             }
+            
+            .cashier-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .cashier-keypad {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .payment-summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .payment-actions {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 480px) {
@@ -935,6 +1684,18 @@
                 max-width: 150px;
                 max-height: 100px;
             }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .payment-summary-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -944,7 +1705,7 @@
 <header>
     <div class="logo">
         <i class="fas fa-boxes"></i>
-        <h1>مدير المتجر - طلبات</h1>
+        <h1>مدير المتجر - نظام كاشير</h1>
     </div>
     <nav>
         <button id="productsBtn" onclick="showProducts()" class="active">
@@ -954,6 +1715,14 @@
         <button id="ordersBtn" onclick="showOrders()">
             <i class="fas fa-shopping-cart"></i>
             الطلبات
+        </button>
+        <button id="cashierBtn" onclick="showCashier()">
+            <i class="fas fa-cash-register"></i>
+            الكاشير
+        </button>
+        <button id="paymentsBtn" onclick="showPaymentsReport()">
+            <i class="fas fa-chart-bar"></i>
+            تقرير المدفوعات
         </button>
     </nav>
 </header>
@@ -997,7 +1766,7 @@
             
             <div class="input-group">
                 <label for="category">نوع المنتج *</label>
-                <input type="text" id="category" placeholder="أدخل نوع المنتج (مثال: إلكترونيات، ملابس، أثاث)">
+                <input type="text" id="category" placeholder="أدخل نوع المنتج (مثال: فيزا أمريكي، باسبور)">
                 <div class="categories-list" id="commonCategories">
                     <span class="category-tag" onclick="setCategory('فيزا أمريكي')">فيزا أمريكي</span>
                     <span class="category-tag" onclick="setCategory('فيزا أوروبي')">فيزا أوروبي</span>
@@ -1118,6 +1887,279 @@
         </div>
     </div>
 
+    <!-- CASHIER PAGE -->
+    <div id="cashierPage" style="display:none">
+        <h2 class="page-title">
+            <i class="fas fa-cash-register"></i>
+            نظام الكاشير
+        </h2>
+        
+        <div class="stats">
+            <div class="stat-card products-stat">
+                <i class="fas fa-box-open fa-2x"></i>
+                <div class="stat-value" id="cashierProducts">0</div>
+                <div class="stat-label">المنتجات المتاحة</div>
+            </div>
+            <div class="stat-card orders-stat">
+                <i class="fas fa-shopping-cart fa-2x"></i>
+                <div class="stat-value" id="cashierSales">0</div>
+                <div class="stat-label">المبيعات اليوم</div>
+            </div>
+            <div class="stat-card sales-stat">
+                <i class="fas fa-money-bill-wave fa-2x"></i>
+                <div class="stat-value" id="cashierRevenue">0 ج.م</div>
+                <div class="stat-label">الإيرادات اليوم</div>
+            </div>
+        </div>
+
+        <div class="cashier-container">
+            <!-- القسم الأيسر: المنتجات والسلة -->
+            <div class="card">
+                <h3><i class="fas fa-search"></i> البحث عن منتجات</h3>
+                
+                <div class="product-search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="productSearch" placeholder="ابحث عن منتج بالاسم أو النوع..." onkeyup="searchProducts()">
+                </div>
+                
+                <div class="product-grid" id="productGrid">
+                    <!-- المنتجات ستظهر هنا -->
+                </div>
+                
+                <div class="quick-actions">
+                    <button class="quick-action-btn" onclick="addQuickProduct('فيزا أمريكي', 5000)">
+                        <i class="fas fa-credit-card"></i>
+                        <span>فيزا أمريكي</span>
+                        <span style="font-size: 12px; color: #4cd964;">5000 ج.م</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="addQuickProduct('فيزا أوروبي', 4000)">
+                        <i class="fas fa-credit-card"></i>
+                        <span>فيزا أوروبي</span>
+                        <span style="font-size: 12px; color: #4cd964;">4000 ج.م</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="addQuickProduct('باسبور', 3000)">
+                        <i class="fas fa-passport"></i>
+                        <span>باسبور</span>
+                        <span style="font-size: 12px; color: #4cd964;">3000 ج.م</span>
+                    </button>
+                    <button class="quick-action-btn" onclick="addQuickProduct('بطاقة هوية', 2000)">
+                        <i class="fas fa-id-card"></i>
+                        <span>بطاقة هوية</span>
+                        <span style="font-size: 12px; color: #4cd964;">2000 ج.م</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- القسم الأيمن: سلة المشتريات والدفع -->
+            <div class="card">
+                <h3><i class="fas fa-shopping-cart"></i> سلة المشتريات</h3>
+                
+                <div class="cart-items" id="cartItems">
+                    <!-- العناصر في السلة ستظهر هنا -->
+                    <div class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>السلة فارغة</h3>
+                        <p>أضف منتجات من القائمة</p>
+                    </div>
+                </div>
+                
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>المجموع الفرعي:</span>
+                        <span id="subtotal">0.00 ج.م</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>الخصم:</span>
+                        <span id="discount">0.00 ج.م</span>
+                    </div>
+                    <div class="summary-row" id="shippingRow" style="display: none;">
+                        <span>مصاريف الشحن:</span>
+                        <span id="shipping">0.00 ج.م</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>الإجمالي:</span>
+                        <span id="total">0.00 ج.م</span>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>خصم (ج.م)</label>
+                    <input type="number" id="discountInput" placeholder="أدخل قيمة الخصم" min="0" step="0.01" onchange="updateDiscount()">
+                </div>
+                
+                <div class="delivery-options">
+                    <h4><i class="fas fa-truck"></i> طريقة التوصيل</h4>
+                    <div class="delivery-option active" onclick="selectDeliveryMethod('pickup')">
+                        <i class="fas fa-store"></i>
+                        <div class="delivery-option-info">
+                            <div class="delivery-option-title">استلام من المتجر</div>
+                            <div class="delivery-option-desc">العميل يستلم المنتج من المحل</div>
+                        </div>
+                    </div>
+                    <div class="delivery-option" onclick="selectDeliveryMethod('delivery')">
+                        <i class="fas fa-truck"></i>
+                        <div class="delivery-option-info">
+                            <div class="delivery-option-title">توصيل للعميل</div>
+                            <div class="delivery-option-desc">شحن المنتج إلى عنوان العميل</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="delivery-details" id="deliveryDetails">
+                    <h4><i class="fas fa-map-marker-alt"></i> عنوان التوصيل</h4>
+                    <div class="input-group">
+                        <label>العنوان التفصيلي</label>
+                        <textarea id="deliveryAddress" rows="3" placeholder="أدخل العنوان الكامل للعميل"></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label>مصاريف الشحن (ج.م)</label>
+                        <input type="number" id="shippingCost" placeholder="أدخل تكلفة الشحن" min="0" step="0.01" onchange="updateShipping()">
+                    </div>
+                </div>
+                
+                <div class="payment-methods">
+                    <div class="payment-method active" onclick="selectPaymentMethod('cash')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div>نقداً</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPaymentMethod('transfer')">
+                        <i class="fas fa-university"></i>
+                        <div>تحويل بنكي</div>
+                    </div>
+                </div>
+                
+                <div class="cash-input-group" id="cashInputGroup">
+                    <h4><i class="fas fa-money-bill-wave"></i> الدفع نقداً</h4>
+                    <div class="input-group">
+                        <label>المبلغ المدفوع</label>
+                        <input type="number" id="cashPaid" placeholder="أدخل المبلغ المدفوع" min="0" step="0.01" onchange="calculateChange()">
+                    </div>
+                    <div class="change-display" id="changeDisplay" style="display: none;">
+                        المتبقي: <span id="changeAmount">0.00</span> ج.م
+                    </div>
+                    <div class="cashier-keypad">
+                        <button class="keypad-btn" onclick="addToCashPaid('100')">100</button>
+                        <button class="keypad-btn" onclick="addToCashPaid('200')">200</button>
+                        <button class="keypad-btn" onclick="addToCashPaid('500')">500</button>
+                        <button class="keypad-btn" onclick="addToCashPaid('1000')">1000</button>
+                        <button class="keypad-btn" onclick="addToCashPaid('50')">50</button>
+                        <button class="keypad-btn" onclick="addToCashPaid('20')">20</button>
+                        <button class="keypad-btn" onclick="addToCashPaid('10')">10</button>
+                        <button class="keypad-btn" onclick="addToCashPaid('5')">5</button>
+                        <button class="keypad-btn" onclick="addToCashPaid('1')">1</button>
+                        <button class="keypad-btn clear" onclick="clearCashPaid()">
+                            <i class="fas fa-backspace"></i>
+                        </button>
+                        <button class="keypad-btn" onclick="addToCashPaid('0')">0</button>
+                        <button class="keypad-btn enter" onclick="processCashPayment()">
+                            <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="payment-proof-upload" id="transferProofGroup" style="display: none;">
+                    <h4><i class="fas fa-file-invoice"></i> إثبات التحويل البنكي</h4>
+                    <div class="file-input-container">
+                        <input type="file" id="transferProof" accept="image/*">
+                        <label for="transferProof" class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="transfer-file-name">اختر صورة إثبات التحويل</span>
+                        </label>
+                    </div>
+                    <div class="image-preview" id="transferProofPreview"></div>
+                    <div class="input-group" style="margin-top: 15px;">
+                        <label>مبلغ التحويل المدفوع (ج.م) *</label>
+                        <input type="number" id="transferAmount" placeholder="أدخل المبلغ الذي تحول إليه العميل" min="0" step="0.01">
+                    </div>
+                </div>
+                
+                <div class="customer-info-input">
+                    <h4><i class="fas fa-user"></i> معلومات العميل</h4>
+                    <div class="input-group">
+                        <label>اسم العميل *</label>
+                        <input type="text" id="customerName" placeholder="أدخل اسم العميل">
+                    </div>
+                    <div class="input-group">
+                        <label>رقم الهاتف *</label>
+                        <input type="tel" id="customerPhone" placeholder="أدخل رقم الهاتف">
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="main" onclick="processSale()">
+                        <i class="fas fa-check-circle"></i>
+                        إنهاء البيع
+                    </button>
+                    <button class="btn-cancel" onclick="clearCart()">
+                        <i class="fas fa-trash"></i>
+                        مسح السلة
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card" style="margin-top: 20px;">
+            <h3><i class="fas fa-history"></i> المبيعات الحديثة</h3>
+            <div id="recentSales">
+                <!-- المبيعات الأخيرة ستظهر هنا -->
+                <div class="orders-list">
+                    <div class="empty-state" style="padding: 20px;">
+                        <i class="fas fa-history"></i>
+                        <h4>لا توجد مبيعات حديثة</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYMENTS REPORT PAGE -->
+    <div id="paymentsPage" style="display:none">
+        <h2 class="page-title">
+            <i class="fas fa-chart-bar"></i>
+            تقرير المدفوعات
+        </h2>
+        
+        <div class="card">
+            <h3><i class="fas fa-filter"></i> فلترة المدفوعات</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                <div class="input-group">
+                    <label>من تاريخ</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="input-group">
+                    <label>إلى تاريخ</label>
+                    <input type="date" id="endDate">
+                </div>
+                <div class="input-group">
+                    <label>طريقة الدفع</label>
+                    <select id="paymentMethodFilter">
+                        <option value="all">الكل</option>
+                        <option value="cash">نقداً</option>
+                        <option value="transfer">تحويل</option>
+                    </select>
+                </div>
+                <button class="main" onclick="loadPaymentsReport()" style="align-self: flex-end;">
+                    <i class="fas fa-search"></i>
+                    بحث
+                </button>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3><i class="fas fa-chart-pie"></i> إحصائيات المدفوعات</h3>
+            <div id="paymentsStats">
+                <!-- إحصائيات المدفوعات ستظهر هنا -->
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3><i class="fas fa-list"></i> تفاصيل المدفوعات</h3>
+            <div id="paymentsDetails">
+                <!-- تفاصيل المدفوعات ستظهر هنا -->
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- نافذة حذف جماعي للمنتجات -->
@@ -1155,7 +2197,7 @@
             </button>
         </div>
         
-        <div id="orderDetailsContent">
+        <div id="orderDetailsContent" style="max-height: 70vh; overflow-y: auto;">
             <!-- تفاصيل الطلب ستظهر هنا -->
         </div>
         
@@ -1311,6 +2353,69 @@
     </div>
 </div>
 
+<!-- نافذة الفاتورة -->
+<div class="modal-overlay" id="invoiceModal">
+    <div class="modal" style="max-width: 800px;">
+        <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-receipt"></i> فاتورة البيع</h3>
+            <button class="close-modal" onclick="closeInvoiceModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="receipt-container" id="invoiceContent">
+            <!-- محتوى الفاتورة سيظهر هنا -->
+        </div>
+        
+        <div class="button-group" style="margin-top: 20px;">
+            <button class="whatsapp-btn" onclick="sendInvoiceViaWhatsApp()">
+                <i class="fab fa-whatsapp"></i>
+                إرسال عبر واتساب
+            </button>
+            <button class="main" onclick="printInvoice()">
+                <i class="fas fa-print"></i>
+                طباعة الفاتورة
+            </button>
+            <button class="btn-cancel" onclick="closeInvoiceModal()">
+                <i class="fas fa-times"></i>
+                إغلاق
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة تعديل المدفوعات -->
+<div class="modal-overlay" id="editPaymentModal">
+    <div class="modal payment-edit-modal">
+        <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-money-bill-wave"></i> تعديل المدفوعات</h3>
+            <button class="close-modal" onclick="closeEditPaymentModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div id="editPaymentContent">
+            <!-- محتوى تعديل المدفوعات سيظهر هنا -->
+        </div>
+    </div>
+</div>
+
+<!-- نافذة إدارة المدفوعات -->
+<div class="modal-overlay" id="managePaymentsModal">
+    <div class="modal payment-edit-modal">
+        <div class="modal-header">
+            <h3 class="modal-title"><i class="fas fa-money-bill-wave"></i> إدارة المدفوعات</h3>
+            <button class="close-modal" onclick="closeManagePaymentsModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div id="managePaymentsContent">
+            <!-- محتوى إدارة المدفوعات سيظهر هنا -->
+        </div>
+    </div>
+</div>
+
 <!-- إشعارات -->
 <div id="notification" class="notification">
     <div class="notification-content">
@@ -1366,6 +2471,19 @@
     let deleteType = null;
     let currentOrderId = null;
     let currentOrderData = null;
+    
+    // متغيرات نظام الكاشير
+    let cart = [];
+    let selectedPaymentMethod = 'cash';
+    let selectedDeliveryMethod = 'pickup';
+    let shippingCost = 0;
+    let transferProofImage = null;
+    let currentSale = null;
+    let dailyStats = {
+        salesCount: 0,
+        revenue: 0,
+        transactions: []
+    };
 
     // ========== دوال مساعدة ==========
 
@@ -1423,6 +2541,21 @@
         }
     }
 
+    // دالة لحساب حالة الدفع (معدلة)
+    function calculatePaymentStatus(paid, total) {
+        if (paid >= total) return 'paid'; // مدفوع بالكامل
+        if (paid > 0 && paid < total) return 'partial'; // مدفوع جزئياً
+        if (paid === 0) return 'unpaid'; // غير مدفوع
+        return 'pending';
+    }
+
+    // دالة لتحديث حالة الطلب بناءً على المدفوعات
+    function updateOrderStatusBasedOnPayment(paymentStatus, currentStatus) {
+        // حالة الطلب تبدأ دائماً "قيد الانتظار" ولا تتغير تلقائياً
+        // فقط أنت اللي بتعدل عليها يدوياً
+        return currentStatus || 'pending';
+    }
+
     // دالة لإنشاء رسالة تحديث الحالة للعميل
     function createStatusUpdateMessage(orderNumber, customerName, newStatus, notes = '') {
         const statusMessages = {
@@ -1460,8 +2593,8 @@
         
         // إضافة رمز الدولة إذا لم يكن موجوداً
         let finalPhone = cleanedPhone;
-        if (!finalPhone.startsWith('20')) {
-            finalPhone = '20' + finalPhone;
+        if (!finalPhone.startsWith('2')) {
+            finalPhone = '2' + finalPhone;
         }
         
         // ترميز الرسالة
@@ -1614,6 +2747,12 @@
             if (totalSalesElement) totalSalesElement.textContent = `${totalSalesValue.toFixed(2)} جنيه`;
             
             console.log(`✅ تم تحميل ${productsCount} منتج(ات) من Firebase`);
+            
+            // تحديث نظام الكاشير إذا كان مفتوحاً
+            if (document.getElementById("cashierPage").style.display !== "none") {
+                loadCashierProducts();
+                updateCashierStats();
+            }
             
         } catch (error) {
             console.error("❌ خطأ في تحميل المنتجات من Firebase:", error);
@@ -2008,8 +3147,9 @@
                                 <button onclick="viewOrderDetails('${order.id}')" class="btn-edit">
                                     <i class="fas fa-eye"></i> تفاصيل
                                 </button>
-                                <button onclick="changeOrderStatus('${order.id}')" class="btn-edit">
-                                    <i class="fas fa-edit"></i> حالة
+                                <button onclick="manageOrderPayments('${order.id}')" class="btn-edit">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    المدفوعات
                                 </button>
                                 <button onclick="showDeleteConfirmation('${order.id}', 'order', 'طلب')" class="btn-delete">
                                     <i class="fas fa-trash"></i> حذف
@@ -2098,11 +3238,6 @@
                 (order.customer.phone || 'غير محدد') : 
                 'غير محدد';
             
-            // عنوان العميل
-            const customerAddress = order.customer ? 
-                (order.customer.address || 'غير محدد') : 
-                'غير محدد';
-            
             // تاريخ الطلب
             const orderDate = order.createdAt ? 
                 order.createdAt.toDate().toLocaleDateString('ar-EG') + ' ' + 
@@ -2114,8 +3249,8 @@
             
             // طريقة الدفع
             const paymentMethod = order.payment ? 
-                (order.payment.method || 'تحويل بنكي') : 
-                'تحويل بنكي';
+                (order.payment.method || 'نقداً') : 
+                'نقداً';
             
             // حالة الطلب
             const status = order.status || 'pending';
@@ -2131,12 +3266,59 @@
             // طريقة التوصيل
             const deliveryMethod = order.deliveryMethod || 
                 (order.delivery && order.delivery.method) || 
-                'غير محدد';
+                'استلام من المتجر';
             
             const deliveryMethodText = {
-                'shipping': 'التوصيل',
-                'pickup': 'الاستلام من المتجر'
+                'delivery': 'توصيل للعميل',
+                'pickup': 'استلام من المتجر'
             }[deliveryMethod] || deliveryMethod;
+            
+            // حساب المدفوعات
+            let totalPaid = 0;
+            let cashPaid = 0;
+            let transferPaid = 0;
+            let paymentHistoryHTML = '';
+            
+            if (order.payments && Array.isArray(order.payments)) {
+                order.payments.forEach((payment, index) => {
+                    totalPaid += payment.amount || 0;
+                    if (payment.method === 'cash') {
+                        cashPaid += payment.amount || 0;
+                    } else if (payment.method === 'transfer') {
+                        transferPaid += payment.amount || 0;
+                    }
+                    
+                    const paymentDate = payment.date ? 
+                        (payment.date.toDate ? payment.date.toDate().toLocaleDateString('ar-EG') : 
+                        new Date(payment.date).toLocaleDateString('ar-EG')) : 
+                        'غير محدد';
+                    
+                    const paymentTime = payment.date ? 
+                        (payment.date.toDate ? payment.date.toDate().toLocaleTimeString('ar-EG') : 
+                        new Date(payment.date).toLocaleTimeString('ar-EG')) : 
+                        'غير محدد';
+                    
+                    paymentHistoryHTML += `
+                        <div class="payment-item">
+                            <div>
+                                <span class="payment-method-badge ${payment.method === 'cash' ? 'badge-cash' : 'badge-transfer'}">
+                                    ${payment.method === 'cash' ? 'نقداً' : 'تحويل'}
+                                </span>
+                                <span style="margin-right: 10px;">${paymentDate}</span>
+                                <span style="color: #aaa; font-size: 12px;">${paymentTime}</span>
+                            </div>
+                            <div>
+                                <strong style="color: #4cd964;">${(payment.amount || 0).toFixed(2)} ج.م</strong>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                // إذا لم توجد مدفوعات كصفيف، استخدم الدفع الحالي
+                totalPaid = order.payment?.amount || 0;
+                if (order.payment?.method === 'cash') cashPaid = totalPaid;
+                else if (order.payment?.method === 'transfer') transferPaid = totalPaid;
+            }
             
             // العناصر
             let itemsHTML = '';
@@ -2161,7 +3343,24 @@
             // الإجماليات
             const subtotal = order.summary ? (order.summary.subtotal || 0) : 0;
             const shipping = order.summary ? (order.summary.shipping || 0) : 0;
-            const total = order.summary ? (order.summary.total || subtotal + shipping) : (subtotal + shipping);
+            const discount = order.summary ? (order.summary.discount || 0) : 0;
+            const total = order.summary ? (order.summary.total || subtotal + shipping - discount) : (subtotal + shipping - discount);
+            
+            // حساب المتبقي
+            const remaining = total - totalPaid;
+            const paymentStatus = calculatePaymentStatus(totalPaid, total);
+            const progressPercentage = Math.min((totalPaid / total) * 100, 100);
+            
+            // سجل المدفوعات
+            let paymentHistorySection = '';
+            if (paymentHistoryHTML) {
+                paymentHistorySection = `
+                    <div class="payment-history-container" style="margin: 20px 0;">
+                        <h4 style="margin-bottom: 10px; color: #00c6ff;">سجل المدفوعات</h4>
+                        ${paymentHistoryHTML}
+                    </div>
+                `;
+            }
             
             // صورة إثبات الدفع
             let paymentProofHTML = '';
@@ -2198,11 +3397,15 @@
                         </div>
                         <div class="info-row">
                             <span class="info-label">المبلغ المدفوع:</span>
-                            <span class="info-value">${(order.payment.amount || 0).toFixed(2)} جنيه</span>
+                            <span class="info-value">${totalPaid.toFixed(2)} جنيه</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">المبلغ المتبقي:</span>
+                            <span class="info-value">${remaining.toFixed(2)} جنيه</span>
                         </div>
                         <div class="info-row">
                             <span class="info-label">حالة الدفع:</span>
-                            <span class="info-value">${order.payment.status || 'pending'}</span>
+                            <span class="info-value">${paymentStatus}</span>
                         </div>
                     </div>
                 `;
@@ -2230,6 +3433,24 @@
                 `;
             }
             
+            // عنوان التوصيل
+            let deliveryAddressHTML = '';
+            if (order.delivery && order.delivery.address) {
+                deliveryAddressHTML = `
+                    <div class="customer-info">
+                        <h4 style="margin-bottom: 10px; color: #00c6ff;">عنوان التوصيل</h4>
+                        <div class="info-row">
+                            <span class="info-label">العنوان:</span>
+                            <span class="info-value">${order.delivery.address}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">تكلفة الشحن:</span>
+                            <span class="info-value">${(order.delivery.cost || 0).toFixed(2)} جنيه</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
             // إنشاء HTML لعرض التفاصيل
             const detailsHTML = `
                 <div class="customer-info">
@@ -2242,17 +3463,19 @@
                         <span class="info-label">الهاتف:</span>
                         <span class="info-value">
                             ${customerPhone}
-                            <button onclick="sendStatusUpdate('${orderId}', '${customerPhone}', '${customerName}', '${orderNumber}')" 
+                            <button onclick="changeOrderStatus('${orderId}')" 
                                     class="whatsapp-btn small" style="margin-right: 10px;">
                                 <i class="fab fa-whatsapp"></i> تحديث العميل
                             </button>
                         </span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label">العنوان:</span>
-                        <span class="info-value">${customerAddress}</span>
+                        <span class="info-label">طريقة التوصيل:</span>
+                        <span class="info-value">${deliveryMethodText}</span>
                     </div>
                 </div>
+                
+                ${deliveryAddressHTML}
                 
                 ${whatsappInfoHTML}
                 
@@ -2267,16 +3490,72 @@
                         <span class="info-value">${orderDate}</span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label">طريقة التوصيل:</span>
-                        <span class="info-value">${deliveryMethodText}</span>
-                    </div>
-                    <div class="info-row">
                         <span class="info-label">حالة الطلب:</span>
                         <span class="info-value">${statusText}</span>
                     </div>
                 </div>
                 
-                ${paymentDetailsHTML}
+                <div class="payment-tracker">
+                    <h4 style="margin-bottom: 10px; color: #00c6ff;">تتبع المدفوعات</h4>
+                    
+                    <div class="payment-progress">
+                        <div class="payment-progress-bar" style="width: ${progressPercentage}%"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 14px; color: #aaa;">
+                        <span>المدفوع: ${totalPaid.toFixed(2)} ج.م</span>
+                        <span>الإجمالي: ${total.toFixed(2)} ج.م</span>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 10px;">
+                        <span class="payment-method-badge ${paymentStatus === 'paid' ? 'badge-cash' : paymentStatus === 'partial' ? 'badge-transfer' : ''}">
+                            ${paymentStatus === 'paid' ? 'مدفوع بالكامل' : paymentStatus === 'partial' ? 'مدفوع جزئياً' : 'غير مدفوع'}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="payment-summary-grid">
+                    <div class="payment-summary-card">
+                        <div style="color: #aaa; font-size: 14px;">النقدي</div>
+                        <div class="payment-summary-value payment-summary-cash">
+                            ${cashPaid.toFixed(2)} ج.م
+                        </div>
+                    </div>
+                    
+                    <div class="payment-summary-card">
+                        <div style="color: #aaa; font-size: 14px;">التحويل</div>
+                        <div class="payment-summary-value payment-summary-transfer">
+                            ${transferPaid.toFixed(2)} ج.م
+                        </div>
+                    </div>
+                    
+                    <div class="payment-summary-card">
+                        <div style="color: #aaa; font-size: 14px;">المجموع</div>
+                        <div class="payment-summary-value payment-summary-total">
+                            ${totalPaid.toFixed(2)} ج.م
+                        </div>
+                    </div>
+                </div>
+                
+                ${remaining > 0 ? `
+                <div class="remaining-amount">
+                    <h4><i class="fas fa-exclamation-circle"></i> المبلغ المتبقي</h4>
+                    <div class="remaining-amount-value">${remaining.toFixed(2)} ج.م</div>
+                    <p style="color: #aaa; margin-top: 10px; font-size: 14px;">
+                        العميل لم يدفع هذا المبلغ بعد
+                    </p>
+                </div>
+                ` : `
+                <div class="remaining-amount" style="border-color: rgba(76, 217, 100, 0.3); background: rgba(76, 217, 100, 0.1);">
+                    <h4 style="color: #4cd964;"><i class="fas fa-check-circle"></i> لا يوجد مبلغ متبقي</h4>
+                    <div class="remaining-amount-value" style="color: #4cd964;">0.00 ج.م</div>
+                    <p style="color: #4cd964; margin-top: 10px; font-size: 14px;">
+                        تم دفع الطلب بالكامل
+                    </p>
+                </div>
+                `}
+                
+                ${paymentHistorySection}
                 
                 <h4 style="margin: 20px 0 10px 0; color: #00c6ff;">المنتجات المطلوبة</h4>
                 <div class="order-items-list">
@@ -2296,16 +3575,47 @@
                         <span class="info-value">${subtotal.toFixed(2)} جنيه</span>
                     </div>
                     <div class="info-row">
+                        <span class="info-label">الخصم:</span>
+                        <span class="info-value">-${discount.toFixed(2)} جنيه</span>
+                    </div>
+                    ${shipping > 0 ? `
+                    <div class="info-row">
                         <span class="info-label">مصاريف الشحن:</span>
                         <span class="info-value">${shipping.toFixed(2)} جنيه</span>
                     </div>
+                    ` : ''}
                     <div class="info-row">
                         <span class="info-label">الإجمالي:</span>
                         <span class="info-value" style="color: #4cd964; font-size: 18px;">${total.toFixed(2)} جنيه</span>
                     </div>
+                    <div class="info-row" style="background: rgba(0, 198, 255, 0.1); padding: 10px; border-radius: 8px;">
+                        <span class="info-label">المبلغ المدفوع:</span>
+                        <span class="info-value" style="color: #ffcc00; font-weight: bold;">${totalPaid.toFixed(2)} جنيه</span>
+                    </div>
+                    ${remaining > 0 ? `
+                    <div class="info-row" style="background: rgba(255, 107, 107, 0.1); padding: 10px; border-radius: 8px;">
+                        <span class="info-label">المبلغ المتبقي:</span>
+                        <span class="info-value" style="color: #ff6b6b; font-weight: bold;">${remaining.toFixed(2)} جنيه</span>
+                    </div>
+                    ` : ''}
                 </div>
                 
                 ${paymentProofHTML}
+                
+                <div class="payment-actions" style="margin-top: 20px;">
+                    <button class="payment-btn payment-btn-cash" onclick="addNewPayment('${orderId}', 'cash')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        إضافة دفعة نقدية
+                    </button>
+                    <button class="payment-btn payment-btn-transfer" onclick="addNewPayment('${orderId}', 'transfer')">
+                        <i class="fas fa-university"></i>
+                        إضافة دفعة تحويل
+                    </button>
+                    <button class="whatsapp-btn" onclick="sendOrderInvoiceViaWhatsApp('${orderId}')">
+                        <i class="fab fa-whatsapp"></i>
+                        إرسال الفاتورة
+                    </button>
+                </div>
             `;
             
             // عرض النافذة
@@ -2315,6 +3625,498 @@
         } catch (error) {
             console.error("خطأ في عرض تفاصيل الطلب:", error);
             showNotification("خطأ", `فشل في عرض تفاصيل الطلب: ${error.message}`, "error");
+        }
+    };
+
+    // إدارة مدفوعات الطلب
+    window.manageOrderPayments = async (orderId) => {
+        try {
+            const doc = await db.collection("orders").doc(orderId).get();
+            
+            if (!doc.exists) {
+                showNotification("خطأ", "الطلب غير موجود", "error");
+                return;
+            }
+
+            const order = doc.data();
+            const orderNumber = order.orderNumber || `ORD-${orderId.slice(0, 8)}`;
+            const customerName = order.customer?.name || 'غير محدد';
+            
+            // حساب إجمالي الطلب
+            const total = order.summary?.total || order.total || 0;
+            
+            // حساب المدفوعات السابقة
+            let allPayments = order.payments || [];
+            let totalPaid = 0;
+            let cashPaid = 0;
+            let transferPaid = 0;
+            
+            // حساب تفصيلي للمدفوعات
+            allPayments.forEach(payment => {
+                totalPaid += payment.amount || 0;
+                if (payment.method === 'cash') {
+                    cashPaid += payment.amount || 0;
+                } else if (payment.method === 'transfer') {
+                    transferPaid += payment.amount || 0;
+                }
+            });
+            
+            // حساب المتبقي
+            const remaining = total - totalPaid;
+            const paymentStatus = calculatePaymentStatus(totalPaid, total);
+            const progressPercentage = Math.min((totalPaid / total) * 100, 100);
+            
+            // إنشاء HTML لعرض إدارة المدفوعات
+            const manageHTML = `
+                <div class="payment-summary">
+                    <h4 style="margin-bottom: 10px; color: #00c6ff;">ملخص الطلب</h4>
+                    <div class="info-row">
+                        <span class="info-label">رقم الطلب:</span>
+                        <span class="info-value">${orderNumber}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">العميل:</span>
+                        <span class="info-value">${customerName}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">إجمالي الطلب:</span>
+                        <span class="info-value">${total.toFixed(2)} ج.م</span>
+                    </div>
+                    <div class="info-row" style="background: rgba(255, 204, 0, 0.1); padding: 10px; border-radius: 8px; margin-top: 10px;">
+                        <span class="info-label">المبلغ المدفوع:</span>
+                        <span class="info-value" style="color: #ffcc00; font-weight: bold;">${totalPaid.toFixed(2)} ج.م</span>
+                    </div>
+                    ${remaining > 0 ? `
+                    <div class="info-row" style="background: rgba(255, 107, 107, 0.1); padding: 10px; border-radius: 8px;">
+                        <span class="info-label">المبلغ المتبقي:</span>
+                        <span class="info-value" style="color: #ff6b6b; font-weight: bold;">${remaining.toFixed(2)} ج.م</span>
+                    </div>
+                    ` : `
+                    <div class="info-row" style="background: rgba(76, 217, 100, 0.1); padding: 10px; border-radius: 8px;">
+                        <span class="info-label">المبلغ المتبقي:</span>
+                        <span class="info-value" style="color: #4cd964; font-weight: bold;">0.00 ج.م (مدفوع بالكامل)</span>
+                    </div>
+                    `}
+                </div>
+                
+                <div class="payment-tracker">
+                    <h4 style="margin-bottom: 10px; color: #00c6ff;">تتبع المدفوعات</h4>
+                    
+                    <div class="payment-progress">
+                        <div class="payment-progress-bar" style="width: ${progressPercentage}%"></div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; font-size: 14px; color: #aaa;">
+                        <span>المدفوع: ${totalPaid.toFixed(2)} ج.م</span>
+                        <span>الإجمالي: ${total.toFixed(2)} ج.م</span>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 10px;">
+                        <span class="payment-method-badge ${paymentStatus === 'paid' ? 'badge-cash' : paymentStatus === 'partial' ? 'badge-transfer' : ''}">
+                            ${paymentStatus === 'paid' ? 'مدفوع بالكامل' : paymentStatus === 'partial' ? 'مدفوع جزئياً' : 'غير مدفوع'}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="payment-summary-grid">
+                    <div class="payment-summary-card">
+                        <div style="color: #aaa; font-size: 14px;">النقدي</div>
+                        <div class="payment-summary-value payment-summary-cash">
+                            ${cashPaid.toFixed(2)} ج.م
+                        </div>
+                        <div style="color: #aaa; font-size: 12px;">${allPayments.filter(p => p.method === 'cash').length} دفعة</div>
+                    </div>
+                    
+                    <div class="payment-summary-card">
+                        <div style="color: #aaa; font-size: 14px;">التحويل</div>
+                        <div class="payment-summary-value payment-summary-transfer">
+                            ${transferPaid.toFixed(2)} ج.م
+                        </div>
+                        <div style="color: #aaa; font-size: 12px;">${allPayments.filter(p => p.method === 'transfer').length} دفعة</div>
+                    </div>
+                    
+                    <div class="payment-summary-card">
+                        <div style="color: #aaa; font-size: 14px;">المجموع</div>
+                        <div class="payment-summary-value payment-summary-total">
+                            ${totalPaid.toFixed(2)} ج.م
+                        </div>
+                        <div style="color: #aaa; font-size: 12px;">إجمالي المدفوعات</div>
+                    </div>
+                </div>
+                
+                <div class="payment-history-container" style="margin: 20px 0;">
+                    <h4 style="margin-bottom: 10px; color: #00c6ff;">سجل المدفوعات</h4>
+                    
+                    ${allPayments.length > 0 ? 
+                        allPayments.map((payment, index) => {
+                            const paymentDate = payment.date ? 
+                                (payment.date.toDate ? payment.date.toDate().toLocaleDateString('ar-EG') : 
+                                new Date(payment.date).toLocaleDateString('ar-EG')) : 
+                                'غير محدد';
+                            
+                            const paymentTime = payment.date ? 
+                                (payment.date.toDate ? payment.date.toDate().toLocaleTimeString('ar-EG') : 
+                                new Date(payment.date).toLocaleTimeString('ar-EG')) : 
+                                'غير محدد';
+                            
+                            return `
+                                <div class="payment-item">
+                                    <div>
+                                        <span class="payment-method-badge ${payment.method === 'cash' ? 'badge-cash' : 'badge-transfer'}">
+                                            ${payment.method === 'cash' ? 'نقداً' : 'تحويل'}
+                                        </span>
+                                        <span style="margin-right: 10px;">${paymentDate}</span>
+                                        <span style="color: #aaa; font-size: 12px;">${paymentTime}</span>
+                                    </div>
+                                    <div>
+                                        <strong style="color: #4cd964;">${payment.amount.toFixed(2)} ج.م</strong>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('') 
+                        : 
+                        '<div style="text-align: center; padding: 20px; color: #aaa;">لا توجد مدفوعات سابقة</div>'
+                    }
+                </div>
+                
+                <div class="payment-actions">
+                    <button class="payment-btn payment-btn-cash" onclick="addNewPayment('${orderId}', 'cash')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        إضافة دفعة نقدية
+                    </button>
+                    <button class="payment-btn payment-btn-transfer" onclick="addNewPayment('${orderId}', 'transfer')">
+                        <i class="fas fa-university"></i>
+                        إضافة دفعة تحويل
+                    </button>
+                </div>
+                
+                <input type="hidden" id="manageOrderId" value="${orderId}">
+            `;
+            
+            document.getElementById("managePaymentsContent").innerHTML = manageHTML;
+            document.getElementById("managePaymentsModal").classList.add("active");
+            
+        } catch (error) {
+            console.error("خطأ في تحميل بيانات المدفوعات:", error);
+            showNotification("خطأ", "فشل في تحميل بيانات المدفوعات", "error");
+        }
+    };
+
+    // إغلاق نافذة إدارة المدفوعات
+    window.closeManagePaymentsModal = () => {
+        document.getElementById("managePaymentsModal").classList.remove("active");
+    };
+
+    // إضافة دفعة جديدة
+    window.addNewPayment = (orderId, method) => {
+        // فتح نافذة إضافة دفعة
+        showPaymentEntryModal(orderId, method);
+    };
+
+    // نافذة إضافة دفعة جديدة
+    function showPaymentEntryModal(orderId, method) {
+        const paymentModalHTML = `
+            <div class="modal-overlay" id="newPaymentModal">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h3 class="modal-title"><i class="fas fa-plus-circle"></i> إضافة دفعة جديدة</h3>
+                        <button class="close-modal" onclick="closeNewPaymentModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>مبلغ الدفعة (ج.م)</label>
+                        <input type="number" id="paymentAmount" placeholder="أدخل مبلغ الدفعة" min="0" step="0.01">
+                    </div>
+                    
+                    <div class="payment-methods">
+                        <div class="payment-method ${method === 'cash' ? 'active' : ''}" onclick="selectPaymentMethodInModal('cash')">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <div>نقداً</div>
+                        </div>
+                        <div class="payment-method ${method === 'transfer' ? 'active' : ''}" onclick="selectPaymentMethodInModal('transfer')">
+                            <i class="fas fa-university"></i>
+                            <div>تحويل بنكي</div>
+                        </div>
+                    </div>
+                    
+                    <div class="file-input-container" id="paymentProofContainer" ${method === 'transfer' ? '' : 'style="display: none;"'}>
+                        <input type="file" id="paymentProofImage" accept="image/*">
+                        <label for="paymentProofImage" class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span id="payment-proof-name">اختر صورة إثبات الدفع</span>
+                        </label>
+                    </div>
+                    <div class="image-preview" id="paymentProofPreview"></div>
+                    
+                    <div class="input-group">
+                        <label>ملاحظات (اختياري)</label>
+                        <textarea id="paymentNotes" rows="3" placeholder="أضف ملاحظات حول الدفعة"></textarea>
+                    </div>
+                    
+                    <input type="hidden" id="paymentOrderId" value="${orderId}">
+                    <input type="hidden" id="paymentMethod" value="${method}">
+                    
+                    <div class="button-group">
+                        <button class="btn-update" onclick="saveNewPayment()">
+                            <i class="fas fa-save"></i>
+                            حفظ الدفعة
+                        </button>
+                        <button class="btn-cancel" onclick="closeNewPaymentModal()">
+                            <i class="fas fa-times"></i>
+                            إلغاء
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // إضافة النافذة إلى body إذا لم تكن موجودة
+        if (!document.getElementById("newPaymentModal")) {
+            const modalDiv = document.createElement("div");
+            modalDiv.innerHTML = paymentModalHTML;
+            document.body.appendChild(modalDiv.firstElementChild);
+            
+            // تعيين أحداث لملف الصورة
+            const paymentProofImage = document.getElementById("paymentProofImage");
+            const paymentProofName = document.getElementById("payment-proof-name");
+            
+            if (paymentProofImage && paymentProofName) {
+                paymentProofImage.addEventListener("change", function() {
+                    if (this.files && this.files[0]) {
+                        const file = this.files[0];
+                        paymentProofName.textContent = file.name;
+                        
+                        // عرض معاينة الصورة
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const preview = document.getElementById("paymentProofPreview");
+                            preview.innerHTML = `
+                                <p style="color: #4cd964; margin-bottom: 10px;">
+                                    <i class="fas fa-image"></i> معاينة الصورة:
+                                </p>
+                                <img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 10px; border: 2px solid rgba(0, 198, 255, 0.3);">
+                            `;
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        paymentProofName.textContent = "اختر صورة إثبات الدفع";
+                        document.getElementById("paymentProofPreview").innerHTML = "";
+                    }
+                });
+            }
+        }
+        
+        document.getElementById("newPaymentModal").classList.add("active");
+    }
+
+    // تحديد طريقة الدفع في النافذة
+    window.selectPaymentMethodInModal = (method) => {
+        document.getElementById("paymentMethod").value = method;
+        
+        // تحديث التحديد البصري
+        document.querySelectorAll('#newPaymentModal .payment-method').forEach(el => {
+            el.classList.remove('active');
+        });
+        event.target.closest('.payment-method').classList.add('active');
+        
+        // إظهار/إخفاء حقل صورة التحويل
+        const paymentProofContainer = document.getElementById("paymentProofContainer");
+        if (method === 'transfer') {
+            paymentProofContainer.style.display = 'block';
+        } else {
+            paymentProofContainer.style.display = 'none';
+            document.getElementById("paymentProofPreview").innerHTML = "";
+        }
+    };
+
+    // حفظ دفعة جديدة
+    window.saveNewPayment = async () => {
+        const orderId = document.getElementById("paymentOrderId").value;
+        const amount = parseFloat(document.getElementById("paymentAmount").value);
+        const method = document.getElementById("paymentMethod").value;
+        const notes = document.getElementById("paymentNotes").value.trim();
+        const proofFile = document.getElementById("paymentProofImage")?.files[0];
+        
+        if (!amount || amount <= 0) {
+            showNotification("تحذير", "يرجى إدخال مبلغ صحيح", "warning");
+            return;
+        }
+        
+        if (amount <= 0) {
+            showNotification("تحذير", "يرجى إدخال مبلغ أكبر من الصفر", "warning");
+            return;
+        }
+        
+        try {
+            const doc = await db.collection("orders").doc(orderId).get();
+            if (!doc.exists) {
+                showNotification("خطأ", "الطلب غير موجود", "error");
+                return;
+            }
+
+            const order = doc.data();
+            const total = order.summary?.total || order.total || 0;
+            
+            // حساب المدفوعات السابقة
+            let previousPayments = order.payments || [];
+            let totalPaid = 0;
+            previousPayments.forEach(p => totalPaid += p.amount || 0);
+            
+            // التحقق من أن المبلغ الجديد لا يتجاوز الإجمالي
+            const newTotalPaid = totalPaid + amount;
+            if (newTotalPaid > total) {
+                showNotification("تحذير", `المبلغ يتجاوز إجمالي الطلب. المبلغ المسموح به: ${(total - totalPaid).toFixed(2)} ج.م`, "warning");
+                return;
+            }
+            
+            // رفع صورة التحويل إذا كانت موجودة
+            let proofUrl = null;
+            let proofData = null;
+            
+            if (method === 'transfer' && proofFile) {
+                showNotification("معلومات", "جاري رفع صورة الإثبات...", "info");
+                try {
+                    proofData = await uploadImageToImgBB(proofFile);
+                    proofUrl = proofData.url;
+                } catch (uploadError) {
+                    console.warn("⚠️ خطأ في رفع صورة الإثبات:", uploadError);
+                    showNotification("تنبيه", "تم حفظ الدفعة بدون صورة الإثبات", "warning");
+                }
+            }
+            
+            // إضافة الدفعة الجديدة
+            const newPayment = {
+                amount: amount,
+                method: method,
+                date: new Date(),
+                notes: notes || "",
+                proofUrl: proofUrl,
+                proofData: proofData,
+                addedBy: "system"
+            };
+            
+            previousPayments.push(newPayment);
+            totalPaid = newTotalPaid;
+            
+            // تحديث حالة الدفع
+            const paymentStatus = calculatePaymentStatus(totalPaid, total);
+            
+            // تحديث حالة الطلب بناءً على المدفوعات
+            // حالة الطلب تبقى كما هي ولا تتغير تلقائياً
+            const newOrderStatus = order.status || 'pending';
+            
+            // تحديث الطلب في Firebase
+            await db.collection("orders").doc(orderId).update({
+                payments: previousPayments,
+                'payment.amount': totalPaid,
+                'payment.status': paymentStatus,
+                'payment.method': method,
+                'payment.proofUrl': proofUrl,
+                'payment.proofData': proofData,
+                'payment.lastPaymentDate': new Date(),
+                status: newOrderStatus,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            showNotification("نجاح", `تم إضافة دفعة جديدة بقيمة ${amount.toFixed(2)} ج.م (${method === 'cash' ? 'نقداً' : 'تحويل'})`, "success");
+            
+            // إغلاق النافذة الحالية
+            closeNewPaymentModal();
+            
+            // إعادة تحميل بيانات المدفوعات إذا كانت النافذة مفتوحة
+            if (document.getElementById("managePaymentsModal").classList.contains("active")) {
+                manageOrderPayments(orderId);
+            }
+            
+            // إعادة تحميل الطلبات
+            loadOrders();
+            
+        } catch (error) {
+            console.error("خطأ في حفظ الدفعة:", error);
+            showNotification("خطأ", `فشل في حفظ الدفعة: ${error.message}`, "error");
+        }
+    };
+
+    // إغلاق نافذة الدفعة الجديدة
+    window.closeNewPaymentModal = () => {
+        const modal = document.getElementById("newPaymentModal");
+        if (modal) {
+            modal.classList.remove("active");
+            // إزالة النافذة من DOM بعد إغلاقها
+            setTimeout(() => {
+                if (modal.parentNode) {
+                    modal.parentNode.removeChild(modal);
+                }
+            }, 300);
+        }
+    };
+
+    // إرسال فاتورة الطلب عبر واتساب
+    window.sendOrderInvoiceViaWhatsApp = async (orderId) => {
+        try {
+            const doc = await db.collection("orders").doc(orderId).get();
+            
+            if (!doc.exists) {
+                showNotification("خطأ", "الطلب غير موجود", "error");
+                return;
+            }
+
+            const order = doc.data();
+            const customerPhone = order.customer?.phone;
+            
+            if (!customerPhone) {
+                showNotification("تحذير", "لا يوجد رقم هاتف للعميل", "warning");
+                return;
+            }
+            
+            // حساب المدفوعات
+            let totalPaid = 0;
+            if (order.payments && order.payments.length > 0) {
+                order.payments.forEach(p => totalPaid += p.amount || 0);
+            } else {
+                totalPaid = order.payment?.amount || 0;
+            }
+            
+            const total = order.summary?.total || order.total || 0;
+            const remaining = total - totalPaid;
+            
+            const itemsText = order.items?.map(item => 
+                `• ${item.name} x ${item.quantity}: ${(item.price * item.quantity).toFixed(2)} ج.م`
+            ).join('\n') || '';
+            
+            const message = `
+                فاتورتك من متجر طلبات 🛍️
+                
+                📋 رقم الطلب: ${order.orderNumber || `ORD-${orderId.slice(0, 8)}`}
+                📅 التاريخ: ${order.createdAt?.toDate().toLocaleDateString('ar-EG') || 'غير محدد'}
+                
+                👤 العميل: ${order.customer?.name || 'غير محدد'}
+                
+                📦 المنتجات:
+                ${itemsText}
+                
+                💰 المجموع الفرعي: ${order.summary?.subtotal?.toFixed(2) || '0.00'} ج.م
+                💰 الخصم: ${order.summary?.discount?.toFixed(2) || '0.00'} ج.م
+                🚚 الشحن: ${order.summary?.shipping?.toFixed(2) || '0.00'} ج.م
+                💵 الإجمالي: ${total.toFixed(2)} ج.م
+                
+                💳 المدفوع: ${totalPaid.toFixed(2)} ج.م
+                💵 المتبقي: ${remaining.toFixed(2)} ج.م
+                
+                📦 طريقة التوصيل: ${order.deliveryMethod === 'delivery' ? 'توصيل للعميل' : 'استلام من المتجر'}
+                
+                شكراً لثقتك بنا! 😊
+                📞 للاستفسار: 01029149379
+            `;
+            
+            openWhatsAppWithMessage(customerPhone, message);
+            showNotification("نجاح", "جارٍ فتح واتساب لإرسال الفاتورة...", "success");
+            
+        } catch (error) {
+            console.error("خطأ في إرسال الفاتورة:", error);
+            showNotification("خطأ", "فشل في إرسال الفاتورة", "error");
         }
     };
 
@@ -2469,7 +4271,7 @@
         
         try {
             // فتح واتساب مع الرسالة
-            openWhatsAppWithMessage(window.whatsappCustomerPhone, window.whatsappMessageToSend);
+            const whatsappUrl = openWhatsAppWithMessage(window.whatsappCustomerPhone, window.whatsappMessageToSend);
             
             // تحديث حالة الطلب في Firebase
             if (window.whatsappOrderId) {
@@ -2508,6 +4310,1056 @@
     window.refreshOrders = () => {
         loadOrders();
         showNotification("معلومات", "جاري تحديث الطلبات...", "info");
+    };
+
+    // ========== نظام الكاشير ==========
+
+    // تحميل منتجات الكاشير
+    function loadCashierProducts() {
+        const productGrid = document.getElementById("productGrid");
+        if (!productGrid) return;
+        
+        if (allProducts.length === 0) {
+            productGrid.innerHTML = `
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <i class="fas fa-box-open"></i>
+                    <h3>لا توجد منتجات</h3>
+                    <p>أضف منتجات من صفحة المنتجات</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let productsHTML = "";
+        
+        allProducts.forEach((product, index) => {
+            if (!product.inStock) return;
+            
+            const icon = getProductIcon(product.category);
+            
+            productsHTML += `
+                <div class="product-grid-item" onclick="addToCart('${product.id}')">
+                    ${icon}
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-price">${product.price.toFixed(2)} ج.م</div>
+                    <div class="product-quantity">المتاح: ${product.quantity}</div>
+                </div>
+            `;
+        });
+        
+        productGrid.innerHTML = productsHTML;
+        
+        // تحديث إحصائيات الكاشير
+        updateCashierStats();
+    }
+
+    // الحصول على أيقونة المنتج حسب النوع
+    function getProductIcon(category) {
+        const icons = {
+            'فيزا أمريكي': 'fas fa-credit-card',
+            'فيزا أوروبي': 'fas fa-credit-card',
+            'فيزا خليجي': 'fas fa-credit-card',
+            'باسبور': 'fas fa-passport',
+            'بطاقة هوية': 'fas fa-id-card',
+            'شهادات': 'fas fa-certificate',
+            'مستندات': 'fas fa-file-alt',
+            'أخرى': 'fas fa-box'
+        };
+        
+        const iconClass = icons[category] || 'fas fa-box';
+        return `<i class="${iconClass}"></i>`;
+    }
+
+    // البحث عن المنتجات
+    window.searchProducts = () => {
+        const searchTerm = document.getElementById("productSearch").value.toLowerCase();
+        const productItems = document.querySelectorAll('.product-grid-item');
+        
+        productItems.forEach(item => {
+            const productName = item.querySelector('.product-name').textContent.toLowerCase();
+            const productCategory = item.querySelector('.product-price')?.previousElementSibling?.textContent?.toLowerCase() || '';
+            
+            if (productName.includes(searchTerm) || productCategory.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    };
+
+    // إضافة منتج سريع
+    window.addQuickProduct = (name, price) => {
+        const quickProduct = {
+            id: 'quick_' + Date.now(),
+            name: name,
+            price: price,
+            quantity: 1
+        };
+        
+        addToCartItem(quickProduct);
+    };
+
+    // إضافة منتج إلى السلة
+    window.addToCart = (productId) => {
+        const product = allProducts.find(p => p.id === productId);
+        if (!product) {
+            showNotification("خطأ", "المنتج غير موجود", "error");
+            return;
+        }
+        
+        if (!product.inStock || product.quantity <= 0) {
+            showNotification("تحذير", "المنتج غير متوفر في المخزون", "warning");
+            return;
+        }
+        
+        const existingItem = cart.find(item => item.id === productId);
+        
+        if (existingItem) {
+            if (existingItem.quantity >= product.quantity) {
+                showNotification("تحذير", "لا يوجد كمية كافية في المخزون", "warning");
+                return;
+            }
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                quantity: 1,
+                category: product.category,
+                stock: product.quantity
+            });
+        }
+        
+        updateCartDisplay();
+        showNotification("نجاح", `تم إضافة ${product.name} إلى السلة`, "success");
+    };
+
+    // إضافة عنصر إلى السلة (داخلية)
+    function addToCartItem(item) {
+        const existingItem = cart.find(cartItem => cartItem.name === item.name);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                ...item,
+                quantity: 1
+            });
+        }
+        
+        updateCartDisplay();
+        showNotification("نجاح", `تم إضافة ${item.name} إلى السلة`, "success");
+    }
+
+    // تحديث عرض السلة
+    function updateCartDisplay() {
+        const cartItems = document.getElementById("cartItems");
+        const subtotalElement = document.getElementById("subtotal");
+        const shippingElement = document.getElementById("shipping");
+        const totalElement = document.getElementById("total");
+        const shippingRow = document.getElementById("shippingRow");
+        
+        if (cart.length === 0) {
+            cartItems.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>السلة فارغة</h3>
+                    <p>أضف منتجات من القائمة</p>
+                </div>
+            `;
+            subtotalElement.textContent = "0.00 ج.م";
+            shippingElement.textContent = "0.00 ج.م";
+            totalElement.textContent = "0.00 ج.م";
+            shippingRow.style.display = "none";
+            return;
+        }
+        
+        let cartHTML = "";
+        let subtotal = 0;
+        
+        cart.forEach((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            subtotal += itemTotal;
+            
+            cartHTML += `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">${item.price.toFixed(2)} ج.م</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="decreaseQuantity(${index})">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="text" class="quantity-input" value="${item.quantity}" readonly>
+                            <button class="quantity-btn" onclick="increaseQuantity(${index})">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <button class="remove-item" onclick="removeFromCart(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+        
+        cartItems.innerHTML = cartHTML;
+        
+        // تحديث الإجماليات
+        const discount = parseFloat(document.getElementById("discountInput").value) || 0;
+        const total = subtotal - discount + shippingCost;
+        
+        subtotalElement.textContent = subtotal.toFixed(2) + " ج.م";
+        document.getElementById("discount").textContent = discount.toFixed(2) + " ج.م";
+        shippingElement.textContent = shippingCost.toFixed(2) + " ج.م";
+        totalElement.textContent = total.toFixed(2) + " ج.م";
+        
+        // إظهار/إخفاء سطر الشحن
+        if (shippingCost > 0) {
+            shippingRow.style.display = "flex";
+        } else {
+            shippingRow.style.display = "none";
+        }
+        
+        // تحديث حساب الباقي إذا كان الدفع نقداً
+        if (selectedPaymentMethod === 'cash') {
+            calculateChange();
+        }
+    }
+
+    // زيادة كمية المنتج
+    window.increaseQuantity = (index) => {
+        const item = cart[index];
+        const product = allProducts.find(p => p.id === item.id);
+        
+        if (product && item.quantity >= product.quantity) {
+            showNotification("تحذير", "لا يوجد كمية كافية في المخزون", "warning");
+            return;
+        }
+        
+        item.quantity += 1;
+        updateCartDisplay();
+    };
+
+    // تقليل كمية المنتج
+    window.decreaseQuantity = (index) => {
+        const item = cart[index];
+        
+        if (item.quantity > 1) {
+            item.quantity -= 1;
+            updateCartDisplay();
+        } else {
+            removeFromCart(index);
+        }
+    };
+
+    // إزالة منتج من السلة
+    window.removeFromCart = (index) => {
+        cart.splice(index, 1);
+        updateCartDisplay();
+        showNotification("معلومات", "تم إزالة المنتج من السلة", "info");
+    };
+
+    // تحديث الخصم
+    window.updateDiscount = () => {
+        updateCartDisplay();
+    };
+
+    // تحديد طريقة التوصيل
+    window.selectDeliveryMethod = (method) => {
+        selectedDeliveryMethod = method;
+        
+        // تحديث التحديد البصري
+        document.querySelectorAll('.delivery-option').forEach(el => {
+            el.classList.remove('active');
+        });
+        event.target.closest('.delivery-option').classList.add('active');
+        
+        // إظهار/إخفاء حقول التوصيل
+        const deliveryDetails = document.getElementById("deliveryDetails");
+        if (method === 'delivery') {
+            deliveryDetails.classList.add('active');
+            // إعادة تعيين سعر الشحن
+            shippingCost = parseFloat(document.getElementById("shippingCost").value) || 0;
+        } else {
+            deliveryDetails.classList.remove('active');
+            shippingCost = 0;
+            document.getElementById("shippingCost").value = "";
+        }
+        
+        updateCartDisplay();
+    };
+
+    // تحديث تكلفة الشحن
+    window.updateShipping = () => {
+        shippingCost = parseFloat(document.getElementById("shippingCost").value) || 0;
+        updateCartDisplay();
+    };
+
+    // تحديد طريقة الدفع
+    window.selectPaymentMethod = (method) => {
+        selectedPaymentMethod = method;
+        
+        // تحديث التحديد البصري
+        document.querySelectorAll('.payment-method').forEach(el => {
+            el.classList.remove('active');
+        });
+        event.target.closest('.payment-method').classList.add('active');
+        
+        // إظهار/إخفاء حقول الدفع النقدي
+        const cashInputGroup = document.getElementById("cashInputGroup");
+        const transferProofGroup = document.getElementById("transferProofGroup");
+        
+        if (method === 'cash') {
+            cashInputGroup.style.display = 'block';
+            transferProofGroup.style.display = 'none';
+            calculateChange();
+        } else {
+            cashInputGroup.style.display = 'none';
+            transferProofGroup.style.display = 'block';
+            document.getElementById("changeDisplay").style.display = 'none';
+            
+            // إظهار حقل مبلغ التحويل
+            document.getElementById("transferAmount").value = "";
+        }
+    };
+
+    // إضافة إلى المبلغ المدفوع
+    window.addToCashPaid = (amount) => {
+        const cashPaidInput = document.getElementById("cashPaid");
+        const currentValue = parseFloat(cashPaidInput.value) || 0;
+        cashPaidInput.value = (currentValue + parseFloat(amount)).toFixed(2);
+        calculateChange();
+    };
+
+    // مسح المبلغ المدفوع
+    window.clearCashPaid = () => {
+        document.getElementById("cashPaid").value = "";
+        calculateChange();
+    };
+
+    // حساب الباقي
+    window.calculateChange = () => {
+        const total = parseFloat(document.getElementById("total").textContent) || 0;
+        const cashPaid = parseFloat(document.getElementById("cashPaid").value) || 0;
+        
+        const changeDisplay = document.getElementById("changeDisplay");
+        const changeAmount = document.getElementById("changeAmount");
+        
+        if (cashPaid > 0) {
+            const change = cashPaid - total;
+            changeAmount.textContent = change.toFixed(2);
+            
+            if (change >= 0) {
+                changeDisplay.style.display = 'block';
+                changeDisplay.style.color = '#4cd964';
+                changeDisplay.innerHTML = `الباقي: <span id="changeAmount">${change.toFixed(2)}</span> ج.م`;
+            } else {
+                changeDisplay.style.display = 'block';
+                changeDisplay.style.color = '#ff3b30';
+                changeDisplay.innerHTML = `المبلغ غير كافي: <span id="changeAmount">${Math.abs(change).toFixed(2)}</span> ج.م`;
+            }
+        } else {
+            changeDisplay.style.display = 'none';
+        }
+    };
+
+    // معالجة الدفع النقدي
+    window.processCashPayment = () => {
+        const total = parseFloat(document.getElementById("total").textContent) || 0;
+        const cashPaid = parseFloat(document.getElementById("cashPaid").value) || 0;
+        
+        // إزالة الشرط الإجباري لجعل الدفع غير شرط أن يكون كافي
+        // المتابعة حتى لو كان المبلغ غير كافٍ
+        processSale();
+    };
+
+    // مسح السلة
+    window.clearCart = () => {
+        if (cart.length === 0) {
+            showNotification("معلومات", "السلة فارغة بالفعل", "info");
+            return;
+        }
+        
+        if (confirm("هل تريد مسح جميع المنتجات من السلة؟")) {
+            cart = [];
+            shippingCost = 0;
+            selectedDeliveryMethod = 'pickup';
+            transferProofImage = null;
+            
+            document.getElementById("discountInput").value = "";
+            document.getElementById("cashPaid").value = "";
+            document.getElementById("customerName").value = "";
+            document.getElementById("customerPhone").value = "";
+            document.getElementById("deliveryAddress").value = "";
+            document.getElementById("shippingCost").value = "";
+            document.getElementById("transferProof").value = "";
+            document.getElementById("transferAmount").value = "";
+            document.getElementById("transfer-file-name").textContent = "اختر صورة إثبات التحويل";
+            document.getElementById("transferProofPreview").innerHTML = "";
+            
+            // إعادة تعيين التوصيل
+            document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('active'));
+            document.querySelector('.delivery-option[onclick*="pickup"]').classList.add('active');
+            document.getElementById("deliveryDetails").classList.remove('active');
+            
+            updateCartDisplay();
+            showNotification("نجاح", "تم مسح السلة بنجاح", "success");
+        }
+    };
+
+    // معالجة البيع
+    window.processSale = async () => {
+        if (cart.length === 0) {
+            showNotification("تحذير", "السلة فارغة، أضف منتجات أولاً", "warning");
+            return;
+        }
+        
+        const total = parseFloat(document.getElementById("total").textContent) || 0;
+        if (total <= 0) {
+            showNotification("خطأ", "المبلغ الإجمالي غير صحيح", "error");
+            return;
+        }
+        
+        const customerName = document.getElementById("customerName").value.trim();
+        const customerPhone = document.getElementById("customerPhone").value.trim();
+        
+        if (!customerName) {
+            showNotification("تحذير", "يرجى إدخال اسم العميل", "warning");
+            document.getElementById("customerName").focus();
+            return;
+        }
+        
+        if (!customerPhone) {
+            showNotification("تحذير", "يرجى إدخال رقم هاتف العميل", "warning");
+            document.getElementById("customerPhone").focus();
+            return;
+        }
+        
+        // حساب المبلغ المدفوع
+        let paidAmount = 0;
+        if (selectedPaymentMethod === 'cash') {
+            paidAmount = parseFloat(document.getElementById("cashPaid").value) || 0;
+        } else if (selectedPaymentMethod === 'transfer') {
+            paidAmount = parseFloat(document.getElementById("transferAmount").value) || 0;
+            if (paidAmount <= 0) {
+                showNotification("تحذير", "يرجى إدخال مبلغ التحويل", "warning");
+                document.getElementById("transferAmount").focus();
+                return;
+            }
+        }
+        
+        // تأكيد البيع
+        const remaining = total - paidAmount;
+        const confirmMessage = remaining > 0 ? 
+            `هل تريد إنهاء عملية البيع؟\nالمبلغ الإجمالي: ${total.toFixed(2)} ج.م\nالمبلغ المدفوع: ${paidAmount.toFixed(2)} ج.م\nالمبلغ المتبقي: ${remaining.toFixed(2)} ج.م` :
+            `هل تريد إنهاء عملية البيع بقيمة ${total.toFixed(2)} ج.م؟`;
+        
+        if (!confirm(confirmMessage)) {
+            return;
+        }
+        
+        try {
+            // رفع صورة التحويل إذا كانت موجودة (اختياري)
+            let proofUrl = null;
+            let proofData = null;
+            
+            if (selectedPaymentMethod === 'transfer') {
+                const proofFile = document.getElementById("transferProof").files[0];
+                
+                if (proofFile) {
+                    showNotification("معلومات", "جاري رفع صورة إثبات التحويل...", "info");
+                    
+                    try {
+                        proofData = await uploadImageToImgBB(proofFile);
+                        proofUrl = proofData.url;
+                        console.log("✅ تم رفع صورة التحويل بنجاح:", proofUrl);
+                    } catch (uploadError) {
+                        console.warn("⚠️ خطأ في رفع صورة التحويل:", uploadError);
+                        showNotification("تنبيه", "فشل في رفع صورة التحويل، جاري الاستمرار بدون الصورة", "warning");
+                    }
+                }
+            }
+            
+            // تحديث المخزون
+            const batch = db.batch();
+            const stockUpdates = [];
+            
+            for (const item of cart) {
+                const product = allProducts.find(p => p.id === item.id);
+                if (product) {
+                    const newQuantity = product.quantity - item.quantity;
+                    if (newQuantity < 0) {
+                        throw new Error(`الكمية غير كافية للمنتج: ${product.name}`);
+                    }
+                    
+                    const productRef = db.collection("products").doc(product.id);
+                    batch.update(productRef, {
+                        quantity: newQuantity,
+                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                    
+                    stockUpdates.push({
+                        productId: product.id,
+                        oldQuantity: product.quantity,
+                        newQuantity: newQuantity
+                    });
+                }
+            }
+            
+            // تحديد حالة الدفع
+            const paymentStatus = calculatePaymentStatus(paidAmount, total);
+            
+            // تحضير بيانات الدفع
+            const paymentData = {
+                method: selectedPaymentMethod,
+                amount: paidAmount,
+                status: paymentStatus,
+                date: new Date() // استخدام new Date() للتاريخ
+            };
+            
+            if (selectedPaymentMethod === 'transfer' && proofUrl) {
+                paymentData.proofUrl = proofUrl;
+                paymentData.proofData = proofData;
+            }
+            
+            // إضافة الطلب إلى Firebase
+            const orderData = {
+                items: cart.map(item => ({
+                    name: item.name,
+                    price: item.price,
+                    quantity: item.quantity,
+                    total: item.price * item.quantity
+                })),
+                summary: {
+                    subtotal: parseFloat(document.getElementById("subtotal").textContent),
+                    discount: parseFloat(document.getElementById("discount").textContent),
+                    shipping: shippingCost,
+                    total: total
+                },
+                payments: [paymentData],
+                payment: {
+                    ...paymentData,
+                    date: firebase.firestore.FieldValue.serverTimestamp()
+                },
+                customer: {
+                    name: customerName,
+                    phone: customerPhone
+                },
+                deliveryMethod: selectedDeliveryMethod,
+                status: 'pending', // تبدأ دائماً "قيد الانتظار"
+                type: 'cashier_sale',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+            
+            // إضافة بيانات التوصيل إذا كانت موجودة
+            if (selectedDeliveryMethod === 'delivery') {
+                const deliveryAddress = document.getElementById("deliveryAddress").value.trim();
+                orderData.delivery = {
+                    method: 'delivery',
+                    address: deliveryAddress,
+                    cost: shippingCost
+                };
+            }
+            
+            const orderRef = db.collection("orders").doc();
+            batch.set(orderRef, orderData);
+            
+            // تنفيذ جميع العمليات
+            await batch.commit();
+            
+            // حفظ بيانات البيع الحالي
+            currentSale = {
+                id: orderRef.id,
+                ...orderData,
+                createdAt: new Date()
+            };
+            
+            // تحديث الإحصائيات اليومية
+            updateDailyStats(total);
+            
+            // إعادة تعيين السلة
+            cart = [];
+            shippingCost = 0;
+            selectedDeliveryMethod = 'pickup';
+            transferProofImage = null;
+            
+            document.getElementById("discountInput").value = "";
+            document.getElementById("cashPaid").value = "";
+            document.getElementById("customerName").value = "";
+            document.getElementById("customerPhone").value = "";
+            document.getElementById("deliveryAddress").value = "";
+            document.getElementById("shippingCost").value = "";
+            document.getElementById("transferProof").value = "";
+            document.getElementById("transferAmount").value = "";
+            document.getElementById("transfer-file-name").textContent = "اختر صورة إثبات التحويل";
+            document.getElementById("transferProofPreview").innerHTML = "";
+            
+            // إعادة تعيين التوصيل
+            document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('active'));
+            document.querySelector('.delivery-option[onclick*="pickup"]').classList.add('active');
+            document.getElementById("deliveryDetails").classList.remove('active');
+            
+            updateCartDisplay();
+            
+            // عرض الفاتورة
+            showInvoice();
+            
+            showNotification("نجاح", `تم إنهاء عملية البيع بنجاح - المبلغ الإجمالي: ${total.toFixed(2)} ج.م - المبلغ المدفوع: ${paidAmount.toFixed(2)} ج.م - المبلغ المتبقي: ${remaining.toFixed(2)} ج.م`, "success");
+            
+            // إعادة تحميل المنتجات والطلبات
+            loadProducts();
+            loadOrders();
+            
+        } catch (error) {
+            console.error("خطأ في معالجة البيع:", error);
+            showNotification("خطأ", `فشل في معالجة البيع: ${error.message}`, "error");
+        }
+    };
+
+    // تحديث الإحصائيات اليومية
+    function updateDailyStats(amount) {
+        dailyStats.salesCount++;
+        dailyStats.revenue += amount;
+        dailyStats.transactions.push({
+            time: new Date(),
+            amount: amount
+        });
+        
+        updateCashierStats();
+    }
+
+    // تحديث إحصائيات الكاشير
+    function updateCashierStats() {
+        const availableProducts = allProducts.filter(p => p.inStock).length;
+        const salesCount = dailyStats.salesCount;
+        const revenue = dailyStats.revenue;
+        
+        document.getElementById("cashierProducts").textContent = availableProducts;
+        document.getElementById("cashierSales").textContent = salesCount;
+        document.getElementById("cashierRevenue").textContent = revenue.toFixed(2) + " ج.م";
+        
+        loadRecentSales();
+    }
+
+    // تحميل المبيعات الحديثة
+    function loadRecentSales() {
+        const recentSales = document.getElementById("recentSales");
+        if (!recentSales) return;
+        
+        if (dailyStats.transactions.length === 0) {
+            recentSales.innerHTML = `
+                <div class="empty-state" style="padding: 20px;">
+                    <i class="fas fa-history"></i>
+                    <h4>لا توجد مبيعات حديثة</h4>
+                </div>
+            `;
+            return;
+        }
+        
+        let salesHTML = '<div class="orders-list">';
+        
+        dailyStats.transactions.slice(-5).reverse().forEach((transaction, index) => {
+            const time = transaction.time.toLocaleTimeString('ar-EG');
+            
+            salesHTML += `
+                <div class="order-item">
+                    <div class="order-info">
+                        <h4>بيع #${dailyStats.transactions.length - index}</h4>
+                        <div class="order-details">
+                            <span><i class="fas fa-clock"></i> ${time}</span>
+                            <span><i class="fas fa-money-bill"></i> ${transaction.amount.toFixed(2)} جنيه</span>
+                        </div>
+                    </div>
+                    <div class="order-status status-completed">
+                        مكتمل
+                    </div>
+                </div>
+            `;
+        });
+        
+        salesHTML += '</div>';
+        recentSales.innerHTML = salesHTML;
+    }
+
+    // عرض الفاتورة
+    function showInvoice() {
+        if (!currentSale) return;
+        
+        const invoiceContent = document.getElementById("invoiceContent");
+        
+        // حساب المدفوعات والمتبقي
+        const total = currentSale.summary.total;
+        const paid = currentSale.payment?.amount || 0;
+        const remaining = total - paid;
+        
+        const itemsHTML = currentSale.items.map(item => `
+            <div class="receipt-item">
+                <div>${item.name} x ${item.quantity}</div>
+                <div>${item.total.toFixed(2)} ج.م</div>
+            </div>
+        `).join('');
+        
+        const deliveryInfo = currentSale.deliveryMethod === 'delivery' ? `
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #000;">
+                <p>طريقة التوصيل: توصيل للعميل</p>
+                <p>عنوان التوصيل: ${currentSale.delivery?.address || 'غير محدد'}</p>
+                <p>تكلفة الشحن: ${(currentSale.delivery?.cost || 0).toFixed(2)} ج.م</p>
+            </div>
+        ` : `
+            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #000;">
+                <p>طريقة التوصيل: استلام من المتجر</p>
+            </div>
+        `;
+        
+        const paymentInfo = currentSale.payment?.method === 'transfer' ? `
+            <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; border: 1px dashed #000;">
+                <p>طريقة الدفع: تحويل بنكي</p>
+                <p>المبلغ المحول: ${paid.toFixed(2)} ج.م</p>
+                ${remaining > 0 ? `<p style="color: #dc3545; font-weight: bold;">المبلغ المتبقي: ${remaining.toFixed(2)} ج.م</p>` : ''}
+            </div>
+        ` : `
+            <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 5px; border: 1px dashed #000;">
+                <p>طريقة الدفع: نقداً</p>
+                <p>المبلغ المدفوع: ${paid.toFixed(2)} ج.م</p>
+                ${remaining > 0 ? `<p style="color: #dc3545; font-weight: bold;">المبلغ المتبقي: ${remaining.toFixed(2)} ج.م</p>` : ''}
+            </div>
+        `;
+        
+        const invoiceHTML = `
+            <div class="receipt-header">
+                <h2 style="margin-bottom: 10px;">فاتورة بيع</h2>
+                <p>متجر طلبات</p>
+                <p>${new Date().toLocaleDateString('ar-EG')} ${new Date().toLocaleTimeString('ar-EG')}</p>
+                <p>رقم الفاتورة: ${currentSale.id.slice(0, 8)}</p>
+            </div>
+            
+            <div class="receipt-items">
+                ${itemsHTML}
+            </div>
+            
+            <div class="receipt-total">
+                <div class="receipt-item">
+                    <div>المجموع الفرعي:</div>
+                    <div>${currentSale.summary.subtotal.toFixed(2)} ج.م</div>
+                </div>
+                <div class="receipt-item">
+                    <div>الخصم:</div>
+                    <div>-${currentSale.summary.discount.toFixed(2)} ج.م</div>
+                </div>
+                ${currentSale.summary.shipping > 0 ? `
+                <div class="receipt-item">
+                    <div>مصاريف الشحن:</div>
+                    <div>${currentSale.summary.shipping.toFixed(2)} ج.م</div>
+                </div>
+                ` : ''}
+                <div class="receipt-item" style="font-weight: bold; font-size: 18px;">
+                    <div>الإجمالي:</div>
+                    <div>${total.toFixed(2)} ج.م</div>
+                </div>
+                <div class="receipt-item" style="color: #28a745; font-weight: bold;">
+                    <div>المبلغ المدفوع:</div>
+                    <div>${paid.toFixed(2)} ج.م</div>
+                </div>
+                ${remaining > 0 ? `
+                <div class="receipt-item" style="color: #dc3545; font-weight: bold;">
+                    <div>المبلغ المتبقي:</div>
+                    <div>${remaining.toFixed(2)} ج.م</div>
+                </div>
+                ` : `
+                <div class="receipt-item" style="color: #28a745; font-weight: bold;">
+                    <div>المبلغ المتبقي:</div>
+                    <div>0.00 ج.م (مدفوع بالكامل)</div>
+                </div>
+                `}
+            </div>
+            
+            ${deliveryInfo}
+            ${paymentInfo}
+            
+            <div style="margin-top: 20px; padding-top: 10px; border-top: 1px dashed #000;">
+                <p>اسم العميل: ${currentSale.customer.name}</p>
+                <p>هاتف العميل: ${currentSale.customer.phone}</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px; font-size: 12px;">
+                <p>شكراً لزيارتكم</p>
+                <p>📞 للاستفسار: 01029149379</p>
+            </div>
+        `;
+        
+        invoiceContent.innerHTML = invoiceHTML;
+        document.getElementById("invoiceModal").classList.add("active");
+    }
+
+    // إغلاق نافذة الفاتورة
+    window.closeInvoiceModal = () => {
+        document.getElementById("invoiceModal").classList.remove("active");
+    };
+
+    // طباعة الفاتورة
+    window.printInvoice = () => {
+        const printContent = document.getElementById("invoiceContent").innerHTML;
+        const originalContent = document.body.innerHTML;
+        
+        document.body.innerHTML = `
+            <!DOCTYPE html>
+            <html dir="rtl">
+            <head>
+                <title>طباعة الفاتورة</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        padding: 20px;
+                        direction: rtl;
+                    }
+                    @media print {
+                        @page {
+                            size: auto;
+                            margin: 0;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                ${printContent}
+                <script>
+                    window.onload = function() {
+                        window.print();
+                        setTimeout(function() {
+                            window.close();
+                        }, 1000);
+                    }
+                <\/script>
+            </body>
+            </html>
+        `;
+        
+        window.print();
+        
+        // العودة إلى المحتوى الأصلي
+        document.body.innerHTML = originalContent;
+        location.reload();
+    };
+
+    // إرسال الفاتورة عبر واتساب
+    window.sendInvoiceViaWhatsApp = () => {
+        if (!currentSale) {
+            showNotification("خطأ", "لا توجد فاتورة للإرسال", "error");
+            return;
+        }
+        
+        const customerPhone = currentSale.customer.phone;
+        if (!customerPhone) {
+            showNotification("تحذير", "لا يوجد رقم هاتف للعميل", "warning");
+            return;
+        }
+        
+        // حساب المدفوعات والمتبقي
+        const total = currentSale.summary.total;
+        const paid = currentSale.payment?.amount || 0;
+        const remaining = total - paid;
+        
+        const deliveryInfo = currentSale.deliveryMethod === 'delivery' ? `
+            🚚 طريقة التوصيل: توصيل للعميل
+            📍 عنوان التوصيل: ${currentSale.delivery?.address || 'غير محدد'}
+            💰 تكلفة الشحن: ${(currentSale.delivery?.cost || 0).toFixed(2)} ج.م
+        ` : `
+            🚚 طريقة التوصيل: استلام من المتجر
+        `;
+        
+        const paymentMethod = currentSale.payment?.method === 'transfer' ? 'تحويل بنكي' : 'نقداً';
+        
+        const message = `
+            فاتورتك من متجر طلبات 🛍️
+            
+            📋 رقم الفاتورة: ${currentSale.id.slice(0, 8)}
+            📅 التاريخ: ${new Date().toLocaleDateString('ar-EG')}
+            
+            👤 العميل: ${currentSale.customer.name}
+            📞 الهاتف: ${customerPhone}
+            
+            📦 المنتجات:
+            ${currentSale.items.map(item => `• ${item.name} x ${item.quantity}: ${item.total.toFixed(2)} ج.م`).join('\n')}
+            
+            💰 المجموع الفرعي: ${currentSale.summary.subtotal.toFixed(2)} ج.م
+            💰 الخصم: ${currentSale.summary.discount.toFixed(2)} ج.م
+            🚚 الشحن: ${currentSale.summary.shipping.toFixed(2)} ج.م
+            💵 الإجمالي: ${total.toFixed(2)} ج.م
+            
+            💳 طريقة الدفع: ${paymentMethod}
+            💵 المبلغ المدفوع: ${paid.toFixed(2)} ج.م
+            ${remaining > 0 ? `💰 المبلغ المتبقي: ${remaining.toFixed(2)} ج.م` : '✅ تم الدفع بالكامل'}
+            
+            ${deliveryInfo}
+            
+            شكراً لثقتك بنا! 😊
+            📞 للاستفسار: 01029149379
+        `;
+        
+        openWhatsAppWithMessage(customerPhone, message);
+        showNotification("نجاح", "جارٍ فتح واتساب لإرسال الفاتورة...", "success");
+    };
+
+    // ========== تقرير المدفوعات ==========
+
+    // عرض صفحة تقرير المدفوعات
+    window.showPaymentsReport = () => {
+        // إخفاء جميع الصفحات وإظهار صفحة المدفوعات
+        document.getElementById("productsPage").style.display = "none";
+        document.getElementById("ordersPage").style.display = "none";
+        document.getElementById("cashierPage").style.display = "none";
+        document.getElementById("paymentsPage").style.display = "block";
+        
+        // تحديث أزرار التنقل
+        document.getElementById("productsBtn").classList.remove('active');
+        document.getElementById("ordersBtn").classList.remove('active');
+        document.getElementById("cashierBtn").classList.remove('active');
+        document.getElementById("paymentsBtn").classList.add('active');
+        
+        // تحميل التقرير
+        loadPaymentsReport();
+    };
+
+    // تحميل تقرير المدفوعات
+    window.loadPaymentsReport = async () => {
+        const startDate = document.getElementById("startDate")?.value;
+        const endDate = document.getElementById("endDate")?.value;
+        const methodFilter = document.getElementById("paymentMethodFilter")?.value;
+        
+        try {
+            let query = db.collection("orders");
+            
+            // تطبيق الفلتر حسب التاريخ إذا كان موجوداً
+            if (startDate) {
+                const start = new Date(startDate);
+                start.setHours(0, 0, 0, 0);
+                query = query.where("createdAt", ">=", start);
+            }
+            
+            if (endDate) {
+                const end = new Date(endDate);
+                end.setHours(23, 59, 59, 999);
+                query = query.where("createdAt", "<=", end);
+            }
+            
+            const querySnapshot = await query.get();
+            
+            let totalCash = 0;
+            let totalTransfer = 0;
+            let totalPaid = 0;
+            let totalOrders = 0;
+            let pendingPayments = 0;
+            
+            let paymentsDetailsHTML = '<div class="orders-list">';
+            
+            querySnapshot.forEach(doc => {
+                const order = doc.data();
+                totalOrders++;
+                
+                // حساب المدفوعات لهذا الطلب
+                const payments = order.payments || [];
+                let orderCash = 0;
+                let orderTransfer = 0;
+                let orderPaid = 0;
+                
+                payments.forEach(payment => {
+                    if (methodFilter === 'all' || payment.method === methodFilter) {
+                        if (payment.method === 'cash') {
+                            orderCash += payment.amount || 0;
+                        } else if (payment.method === 'transfer') {
+                            orderTransfer += payment.amount || 0;
+                        }
+                        orderPaid += payment.amount || 0;
+                    }
+                });
+                
+                totalCash += orderCash;
+                totalTransfer += orderTransfer;
+                totalPaid += orderPaid;
+                
+                // حساب المتبقي
+                const orderTotal = order.summary?.total || order.total || 0;
+                const remaining = orderTotal - orderPaid;
+                
+                if (remaining > 0) {
+                    pendingPayments++;
+                }
+                
+                // إضافة إلى تفاصيل المدفوعات
+                const orderDate = order.createdAt ? 
+                    order.createdAt.toDate().toLocaleDateString('ar-EG') : 
+                    'غير محدد';
+                
+                paymentsDetailsHTML += `
+                    <div class="order-item">
+                        <div class="order-info">
+                            <h4>${order.orderNumber || `ORD-${doc.id.slice(0, 8)}`}</h4>
+                            <p>${order.customer?.name || 'غير محدد'}</p>
+                            <div class="order-details">
+                                <span><i class="fas fa-calendar"></i> ${orderDate}</span>
+                                <span><i class="fas fa-money-bill"></i> ${orderPaid.toFixed(2)} / ${orderTotal.toFixed(2)} ج.م</span>
+                                <span style="color: ${remaining > 0 ? '#ff6b6b' : '#4cd964'}">
+                                    ${remaining > 0 ? `متبقي: ${remaining.toFixed(2)} ج.م` : 'مدفوع بالكامل'}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button onclick="manageOrderPayments('${doc.id}')" class="btn-edit">
+                                <i class="fas fa-money-bill-wave"></i>
+                                إدارة
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            paymentsDetailsHTML += '</div>';
+            document.getElementById("paymentsDetails").innerHTML = paymentsDetailsHTML;
+            
+            // تحديث الإحصائيات
+            const paymentsStatsHTML = `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px;">
+                        <div style="font-size: 24px; font-weight: bold; color: #00c6ff;">${totalOrders}</div>
+                        <div style="color: #aaa;">عدد الطلبات</div>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px;">
+                        <div style="font-size: 24px; font-weight: bold; color: #ffcc00;">${totalCash.toFixed(2)} ج.م</div>
+                        <div style="color: #aaa;">النقدي</div>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px;">
+                        <div style="font-size: 24px; font-weight: bold; color: #9b59b6;">${totalTransfer.toFixed(2)} ج.م</div>
+                        <div style="color: #aaa;">التحويل</div>
+                    </div>
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px;">
+                        <div style="font-size: 24px; font-weight: bold; color: #4cd964;">${totalPaid.toFixed(2)} ج.م</div>
+                        <div style="color: #aaa;">إجمالي المدفوعات</div>
+                    </div>
+                </div>
+                ${pendingPayments > 0 ? `
+                <div style="margin-top: 20px; padding: 15px; background: rgba(255, 107, 107, 0.1); border-radius: 10px; border: 1px solid rgba(255, 107, 107, 0.3);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-exclamation-circle" style="color: #ff6b6b;"></i>
+                        <div>
+                            <div style="font-weight: bold; color: #ff6b6b;">تنبيه: هناك ${pendingPayments} طلب بها مدفوعات متبقية</div>
+                            <div style="color: #aaa; font-size: 14px; margin-top: 5px;">يجب متابعة هذه الطلبات لتحصيل المدفوعات المتبقية</div>
+                        </div>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+            
+            document.getElementById("paymentsStats").innerHTML = paymentsStatsHTML;
+            
+        } catch (error) {
+            console.error("خطأ في تحميل تقرير المدفوعات:", error);
+            showNotification("خطأ", "فشل في تحميل تقرير المدفوعات", "error");
+        }
     };
 
     // ========== وظائف عامة ==========
@@ -2661,13 +5513,21 @@
     window.showProducts = () => {
         const productsPage = document.getElementById("productsPage");
         const ordersPage = document.getElementById("ordersPage");
+        const cashierPage = document.getElementById("cashierPage");
+        const paymentsPage = document.getElementById("paymentsPage");
         const productsBtn = document.getElementById("productsBtn");
         const ordersBtn = document.getElementById("ordersBtn");
+        const cashierBtn = document.getElementById("cashierBtn");
+        const paymentsBtn = document.getElementById("paymentsBtn");
         
         if (productsPage) productsPage.style.display = "block";
         if (ordersPage) ordersPage.style.display = "none";
+        if (cashierPage) cashierPage.style.display = "none";
+        if (paymentsPage) paymentsPage.style.display = "none";
         if (productsBtn) productsBtn.classList.add("active");
         if (ordersBtn) ordersBtn.classList.remove("active");
+        if (cashierBtn) cashierBtn.classList.remove("active");
+        if (paymentsBtn) paymentsBtn.classList.remove("active");
         
         loadProducts();
     };
@@ -2675,15 +5535,46 @@
     window.showOrders = () => {
         const productsPage = document.getElementById("productsPage");
         const ordersPage = document.getElementById("ordersPage");
+        const cashierPage = document.getElementById("cashierPage");
+        const paymentsPage = document.getElementById("paymentsPage");
         const productsBtn = document.getElementById("productsBtn");
         const ordersBtn = document.getElementById("ordersBtn");
+        const cashierBtn = document.getElementById("cashierBtn");
+        const paymentsBtn = document.getElementById("paymentsBtn");
         
         if (productsPage) productsPage.style.display = "none";
         if (ordersPage) ordersPage.style.display = "block";
+        if (cashierPage) cashierPage.style.display = "none";
+        if (paymentsPage) paymentsPage.style.display = "none";
         if (productsBtn) productsBtn.classList.remove("active");
         if (ordersBtn) ordersBtn.classList.add("active");
+        if (cashierBtn) cashierBtn.classList.remove("active");
+        if (paymentsBtn) paymentsBtn.classList.remove("active");
         
         loadOrders();
+    };
+
+    window.showCashier = () => {
+        const productsPage = document.getElementById("productsPage");
+        const ordersPage = document.getElementById("ordersPage");
+        const cashierPage = document.getElementById("cashierPage");
+        const paymentsPage = document.getElementById("paymentsPage");
+        const productsBtn = document.getElementById("productsBtn");
+        const ordersBtn = document.getElementById("ordersBtn");
+        const cashierBtn = document.getElementById("cashierBtn");
+        const paymentsBtn = document.getElementById("paymentsBtn");
+        
+        if (productsPage) productsPage.style.display = "none";
+        if (ordersPage) ordersPage.style.display = "none";
+        if (cashierPage) cashierPage.style.display = "block";
+        if (paymentsPage) paymentsPage.style.display = "none";
+        if (productsBtn) productsBtn.classList.remove("active");
+        if (ordersBtn) ordersBtn.classList.remove("active");
+        if (cashierBtn) cashierBtn.classList.add("active");
+        if (paymentsBtn) paymentsBtn.classList.remove("active");
+        
+        loadCashierProducts();
+        updateCashierStats();
     };
 
     // تهيئة التطبيق عند التحميل
@@ -2728,9 +5619,57 @@
             });
         }
         
+        // تعيين حدث لملف التحويل
+        const transferProof = document.getElementById("transferProof");
+        const transferFileName = document.getElementById("transfer-file-name");
+        
+        if (transferProof && transferFileName) {
+            transferProof.addEventListener("change", function() {
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    transferFileName.textContent = file.name;
+                    
+                    // عرض معاينة الصورة
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const preview = document.getElementById("transferProofPreview");
+                        preview.innerHTML = `
+                            <p style="color: #4cd964; margin-bottom: 10px;">
+                                <i class="fas fa-image"></i> معاينة الصورة:
+                            </p>
+                            <img src="${e.target.result}" style="max-width: 200px; max-height: 150px; border-radius: 10px; border: 2px solid rgba(0, 198, 255, 0.3);">
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    transferFileName.textContent = "اختر صورة إثبات التحويل";
+                    document.getElementById("transferProofPreview").innerHTML = "";
+                }
+            });
+        }
+        
         // تحميل البيانات من Firebase
         loadProducts();
         loadOrders();
+        
+        // تهيئة نظام الكاشير
+        updateCashierStats();
+        
+        // تعيين طريقة الدفع الافتراضية
+        selectPaymentMethod('cash');
+        selectDeliveryMethod('pickup');
+        
+        // تعيين تواريخ افتراضية لتقرير المدفوعات
+        const today = new Date().toISOString().split('T')[0];
+        const startDateInput = document.getElementById("startDate");
+        const endDateInput = document.getElementById("endDate");
+        
+        if (startDateInput) {
+            startDateInput.value = today;
+        }
+        if (endDateInput) {
+            endDateInput.value = today;
+        }
         
         setTimeout(() => {
             showNotification("مرحباً", "تم تحميل لوحة التحكم بنجاح!", "info");
