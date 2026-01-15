@@ -1666,6 +1666,79 @@
             font-size: 14px;
         }
 
+        /* أنماط جديدة لنظام البحث */
+        .search-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .search-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-header i {
+            color: #00c6ff;
+            font-size: 20px;
+        }
+
+        .search-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .search-input-group input {
+            flex: 1;
+            padding-left: 45px;
+        }
+
+        .search-input-container {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-input-container i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00c6ff;
+            font-size: 18px;
+        }
+
+        .search-results-info {
+            background: rgba(0, 198, 255, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-results-info span {
+            color: #00c6ff;
+            font-weight: 600;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #aaa;
+        }
+
+        .no-results i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -1729,6 +1802,10 @@
             }
             
             .payment-actions {
+                flex-direction: column;
+            }
+            
+            .search-input-group {
                 flex-direction: column;
             }
         }
@@ -1930,7 +2007,56 @@
         </h2>
         
         <div class="card">
-            <h3><i class="fas fa-clipboard-list"></i> جميع الطلبات</h3>
+            <h3><i class="fas fa-clipboard-list"></i> نظام البحث في الطلبات</h3>
+            
+            <!-- نظام البحث -->
+            <div class="search-container">
+                <div class="search-header">
+                    <i class="fas fa-search"></i>
+                    <h3>ابحث في الطلبات</h3>
+                </div>
+                
+                <div class="search-input-group">
+                    <div class="search-input-container">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="searchByName" placeholder="ابحث باسم العميل" onkeyup="searchOrders()">
+                    </div>
+                    
+                    <div class="search-input-container">
+                        <i class="fas fa-hashtag"></i>
+                        <input type="text" id="searchByOrderNumber" placeholder="ابحث برقم الطلب" onkeyup="searchOrders()">
+                    </div>
+                    
+                    <button class="main" onclick="clearSearch()" style="min-width: 100px;">
+                        <i class="fas fa-times"></i>
+                        مسح
+                    </button>
+                </div>
+                
+                <div class="search-input-group">
+                    <div class="search-input-container">
+                        <i class="fas fa-phone"></i>
+                        <input type="text" id="searchByPhone" placeholder="ابحث برقم الهاتف" onkeyup="searchOrders()">
+                    </div>
+                    
+                    <select id="searchByStatus" onchange="searchOrders()" style="flex: 1;">
+                        <option value="">جميع الحالات</option>
+                        <option value="pending">قيد الانتظار</option>
+                        <option value="processing">قيد المعالجة</option>
+                        <option value="shipped">تم الشحن</option>
+                        <option value="delivered">تم التوصيل</option>
+                        <option value="completed">مكتمل</option>
+                        <option value="cancelled">ملغي</option>
+                    </select>
+                </div>
+                
+                <div id="searchResultsInfo" class="search-results-info" style="display: none;">
+                    <span id="resultsCount">0 نتيجة</span>
+                    <button onclick="clearSearch()" style="background: none; border: none; color: #00c6ff; cursor: pointer;">
+                        <i class="fas fa-times"></i> إظهار الكل
+                    </button>
+                </div>
+            </div>
             
             <div class="bulk-actions">
                 <button class="bulk-delete" onclick="bulkDeleteOrders()">
@@ -2604,6 +2730,10 @@
     
     // متغير المنتج المحدد
     let selectedProduct = null;
+    
+    // متغيرات البحث
+    let searchActive = false;
+    let searchResults = [];
 
     // ========== دوال مساعدة ==========
 
@@ -2769,6 +2899,309 @@
     window.hideNotification = () => {
         const notification = document.getElementById("notification");
         if (notification) notification.classList.remove("show");
+    };
+
+    // ========== نظام البحث في الطلبات ==========
+
+    // دالة البحث في الطلبات
+    window.searchOrders = () => {
+        const searchByName = document.getElementById("searchByName").value.toLowerCase().trim();
+        const searchByOrderNumber = document.getElementById("searchByOrderNumber").value.toLowerCase().trim();
+        const searchByPhone = document.getElementById("searchByPhone").value.toLowerCase().trim();
+        const searchByStatus = document.getElementById("searchByStatus").value;
+        
+        const searchResultsInfo = document.getElementById("searchResultsInfo");
+        const resultsCount = document.getElementById("resultsCount");
+        
+        // التحقق إذا كان هناك بحث فعال
+        if (!searchByName && !searchByOrderNumber && !searchByPhone && !searchByStatus) {
+            // إذا لم يكن هناك بحث، عرض الكل
+            displayAllOrders();
+            searchResultsInfo.style.display = "none";
+            searchActive = false;
+            return;
+        }
+        
+        searchActive = true;
+        searchResults = [];
+        
+        // فلترة الطلبات بناءً على معايير البحث
+        allOrders.forEach(order => {
+            let match = true;
+            
+            // البحث باسم العميل
+            if (searchByName) {
+                const customerName = order.customer?.name?.toLowerCase() || '';
+                if (!customerName.includes(searchByName)) {
+                    match = false;
+                }
+            }
+            
+            // البحث برقم الطلب
+            if (searchByOrderNumber && match) {
+                const orderNumber = order.orderNumber?.toLowerCase() || `ord-${order.id.slice(0, 8)}`;
+                if (!orderNumber.includes(searchByOrderNumber)) {
+                    match = false;
+                }
+            }
+            
+            // البحث برقم الهاتف
+            if (searchByPhone && match) {
+                const customerPhone = order.customer?.phone?.toLowerCase() || '';
+                if (!customerPhone.includes(searchByPhone)) {
+                    match = false;
+                }
+            }
+            
+            // البحث بالحالة
+            if (searchByStatus && match) {
+                const orderStatus = order.status || 'pending';
+                if (orderStatus !== searchByStatus) {
+                    match = false;
+                }
+            }
+            
+            if (match) {
+                searchResults.push(order);
+            }
+        });
+        
+        // عرض نتائج البحث
+        displaySearchResults(searchResults);
+        
+        // تحديث معلومات نتائج البحث
+        if (searchResults.length === 0) {
+            resultsCount.textContent = "0 نتيجة";
+            searchResultsInfo.style.display = "flex";
+        } else {
+            resultsCount.textContent = `${searchResults.length} نتيجة`;
+            searchResultsInfo.style.display = "flex";
+        }
+    };
+
+    // عرض نتائج البحث
+    function displaySearchResults(results) {
+        const ordersList = document.getElementById("ordersList");
+        
+        if (results.length === 0) {
+            ordersList.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <h3>لا توجد نتائج للبحث</h3>
+                    <p>حاول تغيير كلمات البحث أو المعايير</p>
+                    <button onclick="clearSearch()" style="margin-top: 15px; padding: 10px 20px; background: #00c6ff; color: #000; border: none; border-radius: 8px; cursor: pointer;">
+                        <i class="fas fa-redo"></i> عرض جميع الطلبات
+                    </button>
+                </div>
+            `;
+            return;
+        }
+        
+        let ordersHTML = "";
+        
+        results.forEach(order => {
+            // تنسيق التاريخ
+            const orderDate = order.createdAt ? 
+                order.createdAt.toDate().toLocaleDateString('ar-EG') : 
+                'غير محدد';
+
+            // اسم العميل
+            const customerName = order.customer ? 
+                (order.customer.name || 'غير محدد') : 
+                'غير محدد';
+
+            // رقم الطلب
+            const orderNumber = order.orderNumber || `ORD-${order.id.slice(0, 8)}`;
+
+            // حساب إجمالي الطلب
+            let orderTotal = 0;
+            if (order.summary && order.summary.total) {
+                orderTotal = order.summary.total;
+            } else if (order.payment && order.payment.total) {
+                orderTotal = order.payment.total;
+            } else if (order.total) {
+                orderTotal = order.total;
+            }
+
+            // حالة الطلب بالعربية
+            const status = order.status || 'pending';
+            const statusText = {
+                'pending': 'قيد الانتظار',
+                'processing': 'قيد المعالجة',
+                'shipped': 'تم الشحن',
+                'delivered': 'تم التوصيل',
+                'completed': 'مكتمل',
+                'cancelled': 'ملغي'
+            }[status] || status;
+
+            // فئة حالة الطلب
+            const statusClass = {
+                'pending': 'pending',
+                'processing': 'processing',
+                'shipped': 'shipped',
+                'delivered': 'delivered',
+                'completed': 'completed',
+                'cancelled': 'cancelled'
+            }[status] || 'pending';
+
+            // حالة إرسال واتساب
+            const whatsappSent = order.whatsappSent ? 
+                '<span style="color: #4cd964; font-size: 12px; margin-right: 5px;"><i class="fab fa-whatsapp"></i> تم الإرسال</span>' : 
+                '<span style="color: #ffcc00; font-size: 12px; margin-right: 5px;"><i class="fab fa-whatsapp"></i> لم يرسل</span>';
+
+            ordersHTML += `
+                <div class="order-item">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="order-${order.id}" onchange="toggleOrderSelection('${order.id}')">
+                        <label for="order-${order.id}">تحديد</label>
+                    </div>
+                    <div class="order-info">
+                        <h4>${orderNumber} ${whatsappSent}</h4>
+                        <p>العميل: ${customerName}</p>
+                        <div class="order-details">
+                            <span><i class="fas fa-calendar"></i> ${orderDate}</span>
+                            <span><i class="fas fa-money-bill"></i> ${orderTotal.toFixed(2)} جنيه</span>
+                            <span><i class="fas fa-box"></i> ${order.items ? order.items.length : 0} منتج</span>
+                        </div>
+                    </div>
+                    <div class="order-status status-${statusClass}">
+                        ${statusText}
+                    </div>
+                    <div class="action-buttons">
+                        <button onclick="viewOrderDetails('${order.id}')" class="btn-edit">
+                            <i class="fas fa-eye"></i> تفاصيل
+                        </button>
+                        <button onclick="manageOrderPayments('${order.id}')" class="btn-edit">
+                            <i class="fas fa-money-bill-wave"></i>
+                            المدفوعات
+                        </button>
+                        <button onclick="showDeleteConfirmation('${order.id}', 'order', 'طلب')" class="btn-delete">
+                            <i class="fas fa-trash"></i> حذف
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        ordersList.innerHTML = ordersHTML;
+    }
+
+    // عرض جميع الطلبات
+    function displayAllOrders() {
+        const ordersList = document.getElementById("ordersList");
+        
+        if (allOrders.length === 0) {
+            ordersList.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3>لا توجد طلبات</h3>
+                    <p>لم يتم إضافة أي طلبات بعد.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        let ordersHTML = "";
+        
+        allOrders.forEach(order => {
+            // تنسيق التاريخ
+            const orderDate = order.createdAt ? 
+                order.createdAt.toDate().toLocaleDateString('ar-EG') : 
+                'غير محدد';
+
+            // اسم العميل
+            const customerName = order.customer ? 
+                (order.customer.name || 'غير محدد') : 
+                'غير محدد';
+
+            // رقم الطلب
+            const orderNumber = order.orderNumber || `ORD-${order.id.slice(0, 8)}`;
+
+            // حساب إجمالي الطلب
+            let orderTotal = 0;
+            if (order.summary && order.summary.total) {
+                orderTotal = order.summary.total;
+            } else if (order.payment && order.payment.total) {
+                orderTotal = order.payment.total;
+            } else if (order.total) {
+                orderTotal = order.total;
+            }
+
+            // حالة الطلب بالعربية
+            const status = order.status || 'pending';
+            const statusText = {
+                'pending': 'قيد الانتظار',
+                'processing': 'قيد المعالجة',
+                'shipped': 'تم الشحن',
+                'delivered': 'تم التوصيل',
+                'completed': 'مكتمل',
+                'cancelled': 'ملغي'
+            }[status] || status;
+
+            // فئة حالة الطلب
+            const statusClass = {
+                'pending': 'pending',
+                'processing': 'processing',
+                'shipped': 'shipped',
+                'delivered': 'delivered',
+                'completed': 'completed',
+                'cancelled': 'cancelled'
+            }[status] || 'pending';
+
+            // حالة إرسال واتساب
+            const whatsappSent = order.whatsappSent ? 
+                '<span style="color: #4cd964; font-size: 12px; margin-right: 5px;"><i class="fab fa-whatsapp"></i> تم الإرسال</span>' : 
+                '<span style="color: #ffcc00; font-size: 12px; margin-right: 5px;"><i class="fab fa-whatsapp"></i> لم يرسل</span>';
+
+            ordersHTML += `
+                <div class="order-item">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="order-${order.id}" onchange="toggleOrderSelection('${order.id}')">
+                        <label for="order-${order.id}">تحديد</label>
+                    </div>
+                    <div class="order-info">
+                        <h4>${orderNumber} ${whatsappSent}</h4>
+                        <p>العميل: ${customerName}</p>
+                        <div class="order-details">
+                            <span><i class="fas fa-calendar"></i> ${orderDate}</span>
+                            <span><i class="fas fa-money-bill"></i> ${orderTotal.toFixed(2)} جنيه</span>
+                            <span><i class="fas fa-box"></i> ${order.items ? order.items.length : 0} منتج</span>
+                        </div>
+                    </div>
+                    <div class="order-status status-${statusClass}">
+                        ${statusText}
+                    </div>
+                    <div class="action-buttons">
+                        <button onclick="viewOrderDetails('${order.id}')" class="btn-edit">
+                            <i class="fas fa-eye"></i> تفاصيل
+                        </button>
+                        <button onclick="manageOrderPayments('${order.id}')" class="btn-edit">
+                            <i class="fas fa-money-bill-wave"></i>
+                            المدفوعات
+                        </button>
+                        <button onclick="showDeleteConfirmation('${order.id}', 'order', 'طلب')" class="btn-delete">
+                            <i class="fas fa-trash"></i> حذف
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        ordersList.innerHTML = ordersHTML;
+    }
+
+    // مسح البحث
+    window.clearSearch = () => {
+        document.getElementById("searchByName").value = "";
+        document.getElementById("searchByOrderNumber").value = "";
+        document.getElementById("searchByPhone").value = "";
+        document.getElementById("searchByStatus").value = "";
+        
+        document.getElementById("searchResultsInfo").style.display = "none";
+        searchActive = false;
+        
+        displayAllOrders();
+        showNotification("معلومات", "تم مسح البحث وعرض جميع الطلبات", "info");
     };
 
     // ========== إدارة المنتجات ==========
@@ -3190,8 +3623,6 @@
                     </div>
                 `;
             } else {
-                let ordersHTML = "";
-                
                 querySnapshot.forEach((doc) => {
                     const order = {
                         id: doc.id,
@@ -3216,80 +3647,10 @@
                     if (status === 'pending') pendingOrders++;
                     else if (status === 'completed' || status === 'delivered') completedOrders++;
                     else if (status === 'cancelled') cancelledOrders++;
-
-                    // تنسيق التاريخ
-                    const orderDate = order.createdAt ? 
-                        order.createdAt.toDate().toLocaleDateString('ar-EG') : 
-                        'غير محدد';
-
-                    // اسم العميل
-                    const customerName = order.customer ? 
-                        (order.customer.name || 'غير محدد') : 
-                        'غير محدد';
-
-                    // رقم الطلب
-                    const orderNumber = order.orderNumber || `ORD-${order.id.slice(0, 8)}`;
-
-                    // حالة الطلب بالعربية
-                    const statusText = {
-                        'pending': 'قيد الانتظار',
-                        'processing': 'قيد المعالجة',
-                        'shipped': 'تم الشحن',
-                        'delivered': 'تم التوصيل',
-                        'completed': 'مكتمل',
-                        'cancelled': 'ملغي'
-                    }[status] || status;
-
-                    // فئة حالة الطلب
-                    const statusClass = {
-                        'pending': 'pending',
-                        'processing': 'processing',
-                        'shipped': 'shipped',
-                        'delivered': 'delivered',
-                        'completed': 'completed',
-                        'cancelled': 'cancelled'
-                    }[status] || 'pending';
-
-                    // حالة إرسال واتساب
-                    const whatsappSent = order.whatsappSent ? 
-                        '<span style="color: #4cd964; font-size: 12px; margin-right: 5px;"><i class="fab fa-whatsapp"></i> تم الإرسال</span>' : 
-                        '<span style="color: #ffcc00; font-size: 12px; margin-right: 5px;"><i class="fab fa-whatsapp"></i> لم يرسل</span>';
-
-                    ordersHTML += `
-                        <div class="order-item">
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="order-${order.id}" onchange="toggleOrderSelection('${order.id}')">
-                                <label for="order-${order.id}">تحديد</label>
-                            </div>
-                            <div class="order-info">
-                                <h4>${orderNumber} ${whatsappSent}</h4>
-                                <p>العميل: ${customerName}</p>
-                                <div class="order-details">
-                                    <span><i class="fas fa-calendar"></i> ${orderDate}</span>
-                                    <span><i class="fas fa-money-bill"></i> ${orderTotal.toFixed(2)} جنيه</span>
-                                    <span><i class="fas fa-box"></i> ${order.items ? order.items.length : 0} منتج</span>
-                                </div>
-                            </div>
-                            <div class="order-status status-${statusClass}">
-                                ${statusText}
-                            </div>
-                            <div class="action-buttons">
-                                <button onclick="viewOrderDetails('${order.id}')" class="btn-edit">
-                                    <i class="fas fa-eye"></i> تفاصيل
-                                </button>
-                                <button onclick="manageOrderPayments('${order.id}')" class="btn-edit">
-                                    <i class="fas fa-money-bill-wave"></i>
-                                    المدفوعات
-                                </button>
-                                <button onclick="showDeleteConfirmation('${order.id}', 'order', 'طلب')" class="btn-delete">
-                                    <i class="fas fa-trash"></i> حذف
-                                </button>
-                            </div>
-                        </div>
-                    `;
                 });
 
-                ordersList.innerHTML = ordersHTML;
+                // عرض جميع الطلبات
+                displayAllOrders();
                 
                 // تحديث إحصائيات الطلبات
                 updateOrdersStats(ordersCount, pendingOrders, completedOrders, cancelledOrders, totalSalesValue);
